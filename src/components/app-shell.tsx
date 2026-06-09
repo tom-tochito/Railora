@@ -29,7 +29,7 @@ export async function AppShell({ children }: { children: ReactNode }) {
   const business = getBusiness(user.businessId);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen min-w-0 max-w-full bg-background">
       <aside className="fixed inset-y-0 left-0 hidden w-64 border-r border-border bg-[#10211f] text-white lg:block">
         <div className="flex h-20 items-center gap-3 border-b border-white/10 px-6">
           <div className="flex size-10 items-center justify-center rounded-md bg-accent text-sm font-bold text-[#10211f]">
@@ -53,9 +53,9 @@ export async function AppShell({ children }: { children: ReactNode }) {
           ))}
         </nav>
       </aside>
-      <div className="lg:pl-64">
+      <div className="min-w-0 max-w-full lg:pl-64">
         <header className="sticky top-0 z-20 border-b border-border bg-surface/95 backdrop-blur">
-          <div className="flex min-h-16 items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+          <div className="flex min-h-16 min-w-0 max-w-full items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
             <Link href="/" className="flex items-center gap-2 lg:hidden">
               <span className="flex size-9 items-center justify-center rounded-md bg-brand text-sm font-bold text-white">
                 R
@@ -66,13 +66,13 @@ export async function AppShell({ children }: { children: ReactNode }) {
               <ShieldCheck className="size-4 text-brand" aria-hidden />
               Sandbox/demo. No real money movement.
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex min-w-0 items-center gap-3">
               <ButtonLink href="/auth" variant="secondary" size="sm">
                 Switch demo role
               </ButtonLink>
-              <div className="hidden text-right sm:block">
-                <p className="text-sm font-semibold">{user.name}</p>
-                <p className="text-xs text-muted">
+              <div className="hidden min-w-0 text-right sm:block">
+                <p className="truncate text-sm font-semibold">{user.name}</p>
+                <p className="truncate text-xs text-muted">
                   {business?.displayName} · {user.role.replaceAll("_", " ")}
                 </p>
               </div>
@@ -82,7 +82,9 @@ export async function AppShell({ children }: { children: ReactNode }) {
             </div>
           </div>
         </header>
-        <main className="px-4 py-6 sm:px-6 lg:px-8">{children}</main>
+        <main className="min-w-0 max-w-full px-4 py-6 sm:px-6 lg:px-8">
+          {children}
+        </main>
       </div>
     </div>
   );

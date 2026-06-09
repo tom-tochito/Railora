@@ -15,7 +15,7 @@ export function Input(props: ComponentPropsWithoutRef<"input">) {
     <input
       {...props}
       className={cn(
-        "min-h-11 w-full rounded-md border border-border bg-white px-3 text-sm text-foreground outline-none transition placeholder:text-muted focus:border-brand focus:ring-2 focus:ring-teal-100",
+        "min-h-11 w-full min-w-0 max-w-full rounded-md border border-border bg-white px-3 text-sm text-foreground outline-none transition placeholder:text-muted focus:border-brand focus:ring-2 focus:ring-teal-100",
         props.className,
       )}
     />
@@ -27,7 +27,7 @@ export function Textarea(props: ComponentPropsWithoutRef<"textarea">) {
     <textarea
       {...props}
       className={cn(
-        "min-h-28 w-full rounded-md border border-border bg-white px-3 py-2 text-sm text-foreground outline-none transition placeholder:text-muted focus:border-brand focus:ring-2 focus:ring-teal-100",
+        "min-h-28 w-full min-w-0 max-w-full rounded-md border border-border bg-white px-3 py-2 text-sm text-foreground outline-none transition placeholder:text-muted focus:border-brand focus:ring-2 focus:ring-teal-100",
         props.className,
       )}
     />
@@ -39,7 +39,7 @@ export function Select(props: ComponentPropsWithoutRef<"select">) {
     <select
       {...props}
       className={cn(
-        "min-h-11 w-full rounded-md border border-border bg-white px-3 text-sm text-foreground outline-none transition focus:border-brand focus:ring-2 focus:ring-teal-100",
+        "min-h-11 w-full min-w-0 max-w-full rounded-md border border-border bg-white px-3 text-sm text-foreground outline-none transition focus:border-brand focus:ring-2 focus:ring-teal-100",
         props.className,
       )}
     />

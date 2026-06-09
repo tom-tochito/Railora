@@ -21,7 +21,7 @@ export default function VerificationPage() {
         </p>
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-[1.25fr_0.75fr]">
+      <div className="grid min-w-0 gap-6 xl:grid-cols-[1.25fr_0.75fr]">
         <Card>
           <CardHeader>
             <CardTitle>Verification checklist</CardTitle>
@@ -33,9 +33,9 @@ export default function VerificationPage() {
             {verificationChecks.map((check) => (
               <div
                 key={check.id}
-                className="grid gap-3 rounded-lg border border-border p-4 md:grid-cols-[1fr_auto]"
+                className="grid min-w-0 gap-3 rounded-lg border border-border p-4 md:grid-cols-[1fr_auto]"
               >
-                <div className="flex gap-3">
+                <div className="flex min-w-0 gap-3">
                   <div className="flex size-10 shrink-0 items-center justify-center rounded-md bg-surface-soft text-brand">
                     {check.type === "uae_pass_identity" ? (
                       <UserCheck className="size-4" aria-hidden />
@@ -45,9 +45,9 @@ export default function VerificationPage() {
                       <FileText className="size-4" aria-hidden />
                     )}
                   </div>
-                  <div>
-                    <p className="text-sm font-semibold">{check.label}</p>
-                    <p className="mt-1 text-sm leading-6 text-muted">
+                  <div className="min-w-0">
+                    <p className="break-words text-sm font-semibold">{check.label}</p>
+                    <p className="mt-1 break-words text-sm leading-6 text-muted">
                       {check.notes}
                     </p>
                   </div>
@@ -58,7 +58,7 @@ export default function VerificationPage() {
           </div>
         </Card>
 
-        <div className="space-y-6">
+        <div className="min-w-0 space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>Upload documents</CardTitle>
@@ -77,10 +77,14 @@ export default function VerificationPage() {
               {documents.map((document) => (
                 <div
                   key={document.id}
-                  className="rounded-lg border border-border bg-surface-soft p-3"
+                  className="min-w-0 rounded-lg border border-border bg-surface-soft p-3"
                 >
-                  <p className="text-sm font-semibold">{document.fileName}</p>
-                  <p className="mt-1 text-xs text-muted">{document.storageKey}</p>
+                  <p className="break-words text-sm font-semibold">
+                    {document.fileName}
+                  </p>
+                  <p className="mt-1 break-all text-xs text-muted">
+                    {document.storageKey}
+                  </p>
                   <div className="mt-2">
                     <VerificationBadge status={document.status} />
                   </div>

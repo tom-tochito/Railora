@@ -61,7 +61,7 @@ export function CreateEscrowForm({
 
   return (
     <form
-      className="grid gap-6 xl:grid-cols-[1.35fr_0.65fr]"
+      className="grid min-w-0 gap-6 xl:grid-cols-[1.35fr_0.65fr]"
       onSubmit={handleSubmit((values: FormOutput) => {
         startTransition(async () => {
           const invite = await inviteCounterparty({
@@ -78,7 +78,7 @@ export function CreateEscrowForm({
         });
       })}
     >
-      <div className="space-y-6">
+      <div className="min-w-0 space-y-6">
         <Card>
           <CardHeader>
             <CardTitle>1. Counterparty</CardTitle>
@@ -86,8 +86,8 @@ export function CreateEscrowForm({
               Choose a verified seller or invite by UAE mobile/email.
             </CardDescription>
           </CardHeader>
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2">
+          <div className="grid min-w-0 gap-4 md:grid-cols-2">
+            <div className="min-w-0 space-y-2">
               <Label htmlFor="counterpartyId">Seller</Label>
               <Select id="counterpartyId" {...register("counterpartyId")}>
                 {counterparties
@@ -104,7 +104,7 @@ export function CreateEscrowForm({
                 </p>
               )}
             </div>
-            <div className="space-y-2">
+            <div className="min-w-0 space-y-2">
               <Label htmlFor="invite">Invite email/mobile</Label>
               <Input
                 id="invite"
@@ -122,19 +122,19 @@ export function CreateEscrowForm({
               AED amounts are converted into integer fils for ledger safety.
             </CardDescription>
           </CardHeader>
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2 md:col-span-2">
+          <div className="grid min-w-0 gap-4 md:grid-cols-2">
+            <div className="min-w-0 space-y-2 md:col-span-2">
               <Label htmlFor="title">Title</Label>
               <Input id="title" {...register("title")} />
               {errors.title && (
                 <p className="text-xs text-danger">{errors.title.message}</p>
               )}
             </div>
-            <div className="space-y-2 md:col-span-2">
+            <div className="min-w-0 space-y-2 md:col-span-2">
               <Label htmlFor="description">Description</Label>
               <Textarea id="description" {...register("description")} />
             </div>
-            <div className="space-y-2">
+            <div className="min-w-0 space-y-2">
               <Label htmlFor="category">Goods/services</Label>
               <Select id="category" {...register("category")}>
                 <option>Goods</option>
@@ -143,7 +143,7 @@ export function CreateEscrowForm({
                 <option>Creative</option>
               </Select>
             </div>
-            <div className="space-y-2">
+            <div className="min-w-0 space-y-2">
               <Label htmlFor="amountAed">AED amount before VAT</Label>
               <Input
                 id="amountAed"
@@ -153,11 +153,11 @@ export function CreateEscrowForm({
                 {...register("amountAed", { valueAsNumber: true })}
               />
             </div>
-            <div className="space-y-2">
+            <div className="min-w-0 space-y-2">
               <Label htmlFor="deliveryLocation">Delivery location</Label>
               <Input id="deliveryLocation" {...register("deliveryLocation")} />
             </div>
-            <div className="space-y-2">
+            <div className="min-w-0 space-y-2">
               <Label htmlFor="dueDate">Due date</Label>
               <Input id="dueDate" type="date" {...register("dueDate")} />
             </div>
@@ -182,7 +182,7 @@ export function CreateEscrowForm({
                 {...register("depositPercent", { valueAsNumber: true })}
               />
             </div>
-            <div className="grid gap-3 md:grid-cols-3">
+            <div className="grid min-w-0 gap-3 md:grid-cols-3">
               {[
                 ["Deposit", totals.depositFils],
                 ["Shipment / proof", totals.shipmentFils],
@@ -190,10 +190,10 @@ export function CreateEscrowForm({
               ].map(([label, amount]) => (
                 <div
                   key={String(label)}
-                  className="rounded-lg border border-border bg-surface-soft p-4"
+                  className="min-w-0 rounded-lg border border-border bg-surface-soft p-4"
                 >
-                  <p className="text-sm font-semibold">{label}</p>
-                  <p className="mt-2 text-lg font-semibold">
+                  <p className="break-words text-sm font-semibold">{label}</p>
+                  <p className="mt-2 break-words text-lg font-semibold">
                     {formatAED(Number(amount))}
                   </p>
                 </div>
@@ -209,7 +209,7 @@ export function CreateEscrowForm({
               Metadata only. Uploads are represented by a mock R2 abstraction.
             </CardDescription>
           </CardHeader>
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid min-w-0 gap-3 sm:grid-cols-2">
             {[
               "Pro forma invoice",
               "Purchase order",
@@ -218,7 +218,7 @@ export function CreateEscrowForm({
             ].map((document) => (
               <label
                 key={document}
-                className="flex items-center gap-3 rounded-lg border border-border p-3 text-sm"
+                className="flex min-w-0 items-center gap-3 rounded-lg border border-border p-3 text-sm"
               >
                 <input type="checkbox" defaultChecked className="size-4" />
                 {document}
@@ -228,7 +228,7 @@ export function CreateEscrowForm({
         </Card>
       </div>
 
-      <aside className="space-y-6">
+      <aside className="min-w-0 space-y-6">
         <Card className="sticky top-24">
           <CardHeader>
             <CardTitle>5. Fee review</CardTitle>
@@ -237,22 +237,28 @@ export function CreateEscrowForm({
             </CardDescription>
           </CardHeader>
           <dl className="space-y-3 text-sm">
-            <div className="flex justify-between gap-4">
+            <div className="flex min-w-0 justify-between gap-4">
               <dt className="text-muted">Subtotal</dt>
-              <dd className="font-medium">{formatAED(totals.amountFils)}</dd>
+              <dd className="break-words text-right font-medium">
+                {formatAED(totals.amountFils)}
+              </dd>
             </div>
-            <div className="flex justify-between gap-4">
+            <div className="flex min-w-0 justify-between gap-4">
               <dt className="text-muted">VAT 5%</dt>
-              <dd className="font-medium">{formatAED(totals.vatFils)}</dd>
+              <dd className="break-words text-right font-medium">
+                {formatAED(totals.vatFils)}
+              </dd>
             </div>
-            <div className="flex justify-between gap-4">
+            <div className="flex min-w-0 justify-between gap-4">
               <dt className="text-muted">Railora demo fee</dt>
-              <dd className="font-medium">{formatAED(totals.feeFils)}</dd>
+              <dd className="break-words text-right font-medium">
+                {formatAED(totals.feeFils)}
+              </dd>
             </div>
             <div className="border-t border-border pt-3">
-              <div className="flex justify-between gap-4">
+              <div className="flex min-w-0 justify-between gap-4">
                 <dt className="font-semibold">Sandbox funding amount</dt>
-                <dd className="font-semibold">
+                <dd className="break-words text-right font-semibold">
                   {formatAED(totals.amountFils + totals.vatFils + totals.feeFils)}
                 </dd>
               </div>
@@ -263,7 +269,7 @@ export function CreateEscrowForm({
             Create order
             <ArrowRight className="size-4" aria-hidden />
           </Button>
-          <p className="mt-3 text-xs text-muted" role="status">
+          <p className="mt-3 break-words text-xs text-muted" role="status">
             {message || "Invalid transitions will be shown inside escrow rooms."}
           </p>
         </Card>

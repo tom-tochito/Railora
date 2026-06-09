@@ -2,6 +2,7 @@ import { AppShell } from "@/components/app-shell";
 import { InvoiceActions } from "@/components/invoice-actions";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { TableScroll } from "@/components/ui/table-scroll";
 import { counterparties, invoices } from "@/lib/data/seed";
 import { formatAED } from "@/lib/domain/money";
 
@@ -24,7 +25,7 @@ export default function InvoicesPage() {
             E-invoicing readiness is informational in this prototype.
           </CardDescription>
         </CardHeader>
-        <div className="overflow-x-auto">
+        <TableScroll>
           <table className="w-full min-w-[780px] text-left text-sm">
             <thead className="border-b border-border text-xs uppercase text-muted">
               <tr>
@@ -61,7 +62,7 @@ export default function InvoicesPage() {
               })}
             </tbody>
           </table>
-        </div>
+        </TableScroll>
       </Card>
     </AppShell>
   );

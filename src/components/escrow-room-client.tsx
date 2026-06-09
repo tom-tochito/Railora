@@ -33,6 +33,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input, Label } from "@/components/ui/field";
 import { Badge } from "@/components/ui/badge";
+import { TableScroll } from "@/components/ui/table-scroll";
 import { EscrowStatusBadge, VerificationBadge } from "@/components/status-badge";
 
 export function EscrowRoomClient({
@@ -112,14 +113,16 @@ export function EscrowRoomClient({
   }
 
   return (
-    <div className="grid gap-6 xl:grid-cols-[1.4fr_0.75fr]">
-      <div className="space-y-6">
+    <div className="grid min-w-0 gap-6 xl:grid-cols-[1.4fr_0.75fr]">
+      <div className="min-w-0 space-y-6">
         <Card>
-          <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-start">
-            <div>
+          <div className="flex min-w-0 flex-col justify-between gap-4 lg:flex-row lg:items-start">
+            <div className="min-w-0">
               <Badge tone="brand">{order.reference}</Badge>
-              <h1 className="mt-3 text-3xl font-semibold">{order.title}</h1>
-              <p className="mt-2 max-w-3xl text-sm leading-6 text-muted">
+              <h1 className="mt-3 break-words text-3xl font-semibold">
+                {order.title}
+              </h1>
+              <p className="mt-2 max-w-3xl break-words text-sm leading-6 text-muted">
                 {order.description}
               </p>
               <div className="mt-4 flex flex-wrap items-center gap-2">
@@ -130,7 +133,7 @@ export function EscrowRoomClient({
                 </Badge>
               </div>
             </div>
-            <div className="rounded-lg border border-border bg-surface-soft p-4 lg:min-w-64">
+            <div className="min-w-0 rounded-lg border border-border bg-surface-soft p-4 lg:min-w-64">
               <p className="text-xs uppercase text-muted">Escrow value</p>
               <p className="mt-2 text-2xl font-semibold">
                 {formatAED(order.amountFils + order.vatFils)}
@@ -149,7 +152,7 @@ export function EscrowRoomClient({
               Explicit state machine from draft through release or dispute.
             </CardDescription>
           </CardHeader>
-          <div className="grid gap-3 md:grid-cols-3 xl:grid-cols-5">
+          <div className="grid min-w-0 gap-3 md:grid-cols-3 xl:grid-cols-5">
             {escrowTimeline.map((step) => {
               const currentIndex = escrowTimeline.indexOf(state);
               const stepIndex = escrowTimeline.indexOf(step);
@@ -158,14 +161,16 @@ export function EscrowRoomClient({
               return (
                 <div
                   key={step}
-                  className="flex min-h-20 items-center gap-3 rounded-lg border border-border p-3"
+                  className="flex min-h-20 min-w-0 items-center gap-3 rounded-lg border border-border p-3"
                 >
                   {complete ? (
                     <CheckCircle2 className="size-5 text-success" aria-hidden />
                   ) : (
                     <Circle className="size-5 text-muted" aria-hidden />
                   )}
-                  <span className="text-sm font-medium">{statusLabel(step)}</span>
+                  <span className="min-w-0 break-words text-sm font-medium">
+                    {statusLabel(step)}
+                  </span>
                 </div>
               );
             })}
@@ -179,17 +184,17 @@ export function EscrowRoomClient({
               Deposit, proof, and final acceptance split in integer fils.
             </CardDescription>
           </CardHeader>
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid min-w-0 gap-4 md:grid-cols-3">
             {milestones.map((milestone) => (
               <div
                 key={milestone.id}
-                className="rounded-lg border border-border bg-surface-soft p-4"
+                className="min-w-0 rounded-lg border border-border bg-surface-soft p-4"
               >
-                <p className="text-sm font-semibold">{milestone.title}</p>
+                <p className="break-words text-sm font-semibold">{milestone.title}</p>
                 <p className="mt-2 text-xl font-semibold">
                   {formatAED(milestone.amountFils)}
                 </p>
-                <p className="mt-2 text-xs text-muted">
+                <p className="mt-2 break-words text-xs text-muted">
                   Due {milestone.dueDate} · {milestone.status.replaceAll("_", " ")}
                 </p>
               </div>
@@ -280,7 +285,7 @@ export function EscrowRoomClient({
               Run risk check
             </Button>
           </div>
-          <p className="mt-4 text-sm text-muted" role="status">
+          <p className="mt-4 break-words text-sm text-muted" role="status">
             {message}
           </p>
         </Card>
@@ -292,7 +297,7 @@ export function EscrowRoomClient({
               Every money event has balanced debits and credits.
             </CardDescription>
           </CardHeader>
-          <div className="overflow-x-auto">
+          <TableScroll>
             <table className="w-full min-w-[720px] text-left text-sm">
               <thead className="border-b border-border text-xs uppercase text-muted">
                 <tr>
@@ -317,7 +322,7 @@ export function EscrowRoomClient({
                 )}
               </tbody>
             </table>
-          </div>
+          </TableScroll>
           <div className="mt-4 flex flex-wrap gap-3 text-sm">
             <Badge tone={debits === credits ? "success" : "danger"}>
               Debits {formatAED(debits)}
@@ -329,7 +334,7 @@ export function EscrowRoomClient({
         </Card>
       </div>
 
-      <aside className="space-y-6">
+      <aside className="min-w-0 space-y-6">
         <Card>
           <CardHeader>
             <CardTitle>Counterparty profile</CardTitle>
@@ -340,13 +345,18 @@ export function EscrowRoomClient({
               ["Seller", seller],
             ] satisfies Array<[string, Business | undefined]>).map(([label, item]) => {
               return (
-                <div key={String(label)} className="rounded-lg border border-border p-4">
+                <div
+                  key={String(label)}
+                  className="min-w-0 rounded-lg border border-border p-4"
+                >
                   <p className="text-xs uppercase text-muted">{label}</p>
-                  <p className="mt-2 text-sm font-semibold">{item?.displayName}</p>
-                  <p className="mt-1 text-xs text-muted">
+                  <p className="mt-2 break-words text-sm font-semibold">
+                    {item?.displayName}
+                  </p>
+                  <p className="mt-1 break-words text-xs text-muted">
                     {item?.licenceNumber} · TRN {item?.trn}
                   </p>
-                  <div className="mt-3 flex items-center justify-between gap-3">
+                  <div className="mt-3 flex min-w-0 items-center justify-between gap-3">
                     {item && <VerificationBadge status={item.verificationStatus} />}
                     <Badge tone="brand">Score {item?.tradeScore}</Badge>
                   </div>
@@ -386,7 +396,7 @@ export function EscrowRoomClient({
             ].map((activity) => (
               <div
                 key={activity}
-                className="rounded-lg border border-border bg-surface-soft p-3 text-sm leading-6"
+                className="min-w-0 break-words rounded-lg border border-border bg-surface-soft p-3 text-sm leading-6"
               >
                 {activity}
               </div>
@@ -403,9 +413,9 @@ export function EscrowRoomClient({
               <p className="text-sm text-muted">No document records yet.</p>
             ) : (
               documents.map((document) => (
-                <div key={document.id} className="text-sm">
-                  <p className="font-medium">{document.fileName}</p>
-                  <p className="text-xs text-muted">{document.type}</p>
+                <div key={document.id} className="min-w-0 text-sm">
+                  <p className="break-words font-medium">{document.fileName}</p>
+                  <p className="break-words text-xs text-muted">{document.type}</p>
                 </div>
               ))
             )}

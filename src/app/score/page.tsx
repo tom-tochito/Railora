@@ -29,7 +29,7 @@ export default function ScorePage() {
         </p>
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-[1fr_0.75fr]">
+      <div className="grid min-w-0 gap-6 xl:grid-cols-[1fr_0.75fr]">
         <Card>
           <CardHeader>
             <CardTitle>Score breakdown</CardTitle>
@@ -40,10 +40,10 @@ export default function ScorePage() {
           <div className="space-y-4">
             {breakdown.map(([label, value, detail]) => (
               <div key={String(label)}>
-                <div className="flex items-center justify-between gap-4 text-sm">
-                  <div>
-                    <p className="font-semibold">{label}</p>
-                    <p className="mt-1 text-xs text-muted">{detail}</p>
+                <div className="flex min-w-0 items-center justify-between gap-4 text-sm">
+                  <div className="min-w-0">
+                    <p className="break-words font-semibold">{label}</p>
+                    <p className="mt-1 break-words text-xs text-muted">{detail}</p>
                   </div>
                   <span className="font-semibold">{percent(Number(value))}</span>
                 </div>
@@ -58,7 +58,7 @@ export default function ScorePage() {
           </div>
         </Card>
 
-        <div className="space-y-6">
+        <div className="min-w-0 space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>Explainability panel</CardTitle>
@@ -83,9 +83,9 @@ export default function ScorePage() {
               {riskScores.map((risk) => (
                 <div
                   key={risk.id}
-                  className="rounded-lg border border-border bg-surface-soft p-4"
+                  className="min-w-0 rounded-lg border border-border bg-surface-soft p-4"
                 >
-                  <div className="flex items-center justify-between gap-3">
+                  <div className="flex min-w-0 items-center justify-between gap-3">
                     <p className="text-sm font-semibold">Score {risk.score}</p>
                     <Badge
                       tone={
@@ -99,7 +99,7 @@ export default function ScorePage() {
                       {risk.level}
                     </Badge>
                   </div>
-                  <p className="mt-2 text-xs text-muted">
+                  <p className="mt-2 break-words text-xs text-muted">
                     {risk.factors.join(" · ")}
                   </p>
                 </div>

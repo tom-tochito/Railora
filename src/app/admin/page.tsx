@@ -2,6 +2,7 @@ import { AdminActions } from "@/components/admin-actions";
 import { AppShell } from "@/components/app-shell";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { TableScroll } from "@/components/ui/table-scroll";
 import { getAuditEvents } from "@/lib/data/audit-store";
 import { businesses, disputes, orders, riskScores, users } from "@/lib/data/seed";
 import { formatAED } from "@/lib/domain/money";
@@ -23,8 +24,8 @@ export default function AdminPage() {
         </p>
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-[1fr_0.8fr]">
-        <div className="space-y-6">
+      <div className="grid min-w-0 gap-6 xl:grid-cols-[1fr_0.8fr]">
+        <div className="min-w-0 space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>Flagged transactions</CardTitle>
@@ -32,7 +33,7 @@ export default function AdminPage() {
                 Orders with disputes, verification friction, or elevated risk.
               </CardDescription>
             </CardHeader>
-            <div className="overflow-x-auto">
+            <TableScroll>
               <table className="w-full min-w-[640px] text-left text-sm">
                 <thead className="border-b border-border text-xs uppercase text-muted">
                   <tr>
@@ -67,7 +68,7 @@ export default function AdminPage() {
                   ))}
                 </tbody>
               </table>
-            </div>
+            </TableScroll>
           </Card>
 
           <Card>
@@ -83,11 +84,13 @@ export default function AdminPage() {
                   key={event.id}
                   className="rounded-lg border border-border bg-surface-soft p-4"
                 >
-                  <div className="flex flex-wrap items-center justify-between gap-3">
-                    <p className="text-sm font-semibold">{event.action}</p>
+                  <div className="flex min-w-0 flex-wrap items-center justify-between gap-3">
+                    <p className="min-w-0 break-words text-sm font-semibold">
+                      {event.action}
+                    </p>
                     <Badge tone="neutral">{event.entityType}</Badge>
                   </div>
-                  <p className="mt-1 text-xs text-muted">
+                  <p className="mt-1 break-words text-xs text-muted">
                     {event.actor} · {event.entityId} · {event.createdAt}
                   </p>
                 </div>
@@ -96,7 +99,7 @@ export default function AdminPage() {
           </Card>
         </div>
 
-        <div className="space-y-6">
+        <div className="min-w-0 space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>Admin actions</CardTitle>

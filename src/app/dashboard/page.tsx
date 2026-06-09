@@ -13,6 +13,7 @@ import { EscrowStatusBadge } from "@/components/status-badge";
 import { Badge } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { TableScroll } from "@/components/ui/table-scroll";
 import { businesses, getOrderParties, orders, riskScores } from "@/lib/data/seed";
 import { formatAED } from "@/lib/domain/money";
 
@@ -34,8 +35,8 @@ export default function DashboardPage() {
 
   return (
     <AppShell>
-      <div className="mb-6 flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
-        <div>
+      <div className="mb-6 flex min-w-0 flex-col justify-between gap-4 lg:flex-row lg:items-end">
+        <div className="min-w-0">
           <Badge tone="brand">AED · bilingual ready · sandbox/demo</Badge>
           <h1 className="mt-3 text-3xl font-semibold">Railora dashboard</h1>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
@@ -49,7 +50,7 @@ export default function DashboardPage() {
         </ButtonLink>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-6">
+      <div className="grid min-w-0 gap-4 md:grid-cols-2 xl:grid-cols-6">
         <MetricCard
           label="Escrow balance"
           value={formatAED(escrowBalance)}
@@ -88,15 +89,15 @@ export default function DashboardPage() {
         />
       </div>
 
-      <div className="mt-6 grid gap-6 xl:grid-cols-[1.6fr_0.9fr]">
+      <div className="mt-6 grid min-w-0 gap-6 xl:grid-cols-[1.6fr_0.9fr]">
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
+          <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <CardTitle>Recent escrow orders</CardTitle>
             <ButtonLink href="/escrow/ord-001" variant="secondary" size="sm">
               Open active room
             </ButtonLink>
           </CardHeader>
-          <div className="overflow-x-auto">
+          <TableScroll>
             <table className="w-full min-w-[760px] text-left text-sm">
               <thead className="border-b border-border text-xs uppercase text-muted">
                 <tr>
@@ -137,10 +138,10 @@ export default function DashboardPage() {
                 })}
               </tbody>
             </table>
-          </div>
+          </TableScroll>
         </Card>
 
-        <div className="space-y-6">
+        <div className="min-w-0 space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>Risk alerts</CardTitle>
@@ -156,11 +157,11 @@ export default function DashboardPage() {
                     className="rounded-lg border border-border bg-surface-soft p-4"
                   >
                     <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <p className="text-sm font-semibold">
+                      <div className="min-w-0">
+                        <p className="break-words text-sm font-semibold">
                           {business?.displayName}
                         </p>
-                        <p className="mt-1 text-xs text-muted">
+                        <p className="mt-1 break-words text-xs text-muted">
                           {risk.factors.join(" · ")}
                         </p>
                       </div>
