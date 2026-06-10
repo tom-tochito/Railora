@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowRight, FilePlus2 } from "lucide-react";
+import { ArrowRight, FilePlus2, SlidersHorizontal } from "lucide-react";
 import { useMemo, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -32,6 +32,7 @@ export function CreateEscrowForm({
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<FormInput, unknown, FormOutput>({
     resolver: zodResolver(createEscrowOrderSchema),
@@ -48,16 +49,17 @@ export function CreateEscrowForm({
   });
   const amountAed = watch("amountAed");
   const depositPercent = watch("depositPercent");
+  const depositPercentValue = Number(depositPercent || 30);
   const totals = useMemo(() => {
     const amountFils = parseAEDToFils(Number(amountAed || 0));
     const vatFils = calculateVatFils(amountFils);
     const feeFils = calculatePlatformFeeFils(amountFils + vatFils);
-    const depositFils = Math.round(amountFils * (Number(depositPercent) / 100));
+    const depositFils = Math.round(amountFils * (depositPercentValue / 100));
     const shipmentFils = Math.round((amountFils - depositFils) * 0.6);
     const finalFils = amountFils - depositFils - shipmentFils;
 
     return { amountFils, vatFils, feeFils, depositFils, shipmentFils, finalFils };
-  }, [amountAed, depositPercent]);
+  }, [amountAed, depositPercentValue]);
 
   return (
     <form
@@ -168,19 +170,51 @@ export function CreateEscrowForm({
           <CardHeader>
             <CardTitle>3. Milestones</CardTitle>
             <CardDescription>
-              Deposit, proof milestone, and final acceptance.
+              Adjust the deposit and watch the milestone split rebalance instantly.
             </CardDescription>
           </CardHeader>
           <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="depositPercent">Deposit percentage</Label>
-              <Input
-                id="depositPercent"
-                type="number"
-                min="10"
-                max="80"
-                {...register("depositPercent", { valueAsNumber: true })}
-              />
+            <div className="rounded-lg border border-border bg-surface-soft p-4">
+              <div className="flex min-w-0 items-center justify-between gap-3">
+                <div className="min-w-0">
+                  <Label htmlFor="depositPercent">Deposit percentage</Label>
+                  <p className="mt-1 text-xs leading-5 text-muted">
+                    Premium rooms usually start with 30-40% to balance trust.
+                  </p>
+                </div>
+                <div className="flex size-10 shrink-0 items-center justify-center rounded-md bg-white text-brand shadow-sm">
+                  <SlidersHorizontal className="size-4" aria-hidden />
+                </div>
+              </div>
+              <div className="mt-4 grid gap-3 sm:grid-cols-[1fr_7rem] sm:items-center">
+                <input
+                  aria-label="Deposit percentage slider"
+                  type="range"
+                  min="10"
+                  max="80"
+                  value={depositPercentValue}
+                  onChange={(event) =>
+                    setValue("depositPercent", Number(event.target.value), {
+                      shouldDirty: true,
+                      shouldValidate: true,
+                    })
+                  }
+                  className="h-2 w-full cursor-pointer accent-brand"
+                />
+                <Input
+                  id="depositPercent"
+                  type="number"
+                  min="10"
+                  max="80"
+                  {...register("depositPercent", { valueAsNumber: true })}
+                />
+              </div>
+              <div className="mt-3 h-2 overflow-hidden rounded-full bg-white">
+                <div
+                  className="h-full rounded-full bg-brand transition-all"
+                  style={{ width: `${depositPercentValue}%` }}
+                />
+              </div>
             </div>
             <div className="grid min-w-0 gap-3 md:grid-cols-3">
               {[
@@ -190,7 +224,7 @@ export function CreateEscrowForm({
               ].map(([label, amount]) => (
                 <div
                   key={String(label)}
-                  className="min-w-0 rounded-lg border border-border bg-surface-soft p-4"
+                  className="min-w-0 rounded-lg border border-border bg-white/80 p-4 shadow-sm"
                 >
                   <p className="break-words text-sm font-semibold">{label}</p>
                   <p className="mt-2 break-words text-lg font-semibold">
@@ -229,11 +263,11 @@ export function CreateEscrowForm({
       </div>
 
       <aside className="min-w-0 space-y-6">
-        <Card className="sticky top-24">
+        <Card className="xl:sticky xl:top-24">
           <CardHeader>
             <CardTitle>5. Fee review</CardTitle>
             <CardDescription>
-              Sandbox payment adapter preview. No real money movement.
+              A live funding preview for the sandbox room.
             </CardDescription>
           </CardHeader>
           <dl className="space-y-3 text-sm">
@@ -266,11 +300,11 @@ export function CreateEscrowForm({
           </dl>
           <Button type="submit" className="mt-6 w-full" disabled={isPending}>
             <FilePlus2 className="size-4" aria-hidden />
-            Create order
+            {isPending ? "Creating order" : "Create order"}
             <ArrowRight className="size-4" aria-hidden />
           </Button>
           <p className="mt-3 break-words text-xs text-muted" role="status">
-            {message || "Invalid transitions will be shown inside escrow rooms."}
+            {message || "Room actions and ledger transitions appear after creation."}
           </p>
         </Card>
       </aside>

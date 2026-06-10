@@ -22,9 +22,10 @@ export function DisputeActions({ disputeId }: { disputeId: string }) {
         <option value="refund">Refund</option>
         <option value="manual_review">Manual review</option>
       </Select>
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
         <Button
           type="button"
+          className="w-full sm:w-auto"
           disabled={isPending}
           onClick={() =>
             startTransition(async () => {
@@ -34,9 +35,14 @@ export function DisputeActions({ disputeId }: { disputeId: string }) {
           }
         >
           <CheckCircle2 className="size-4" aria-hidden />
-          Resolve dispute
+          {isPending ? "Resolving" : "Resolve dispute"}
         </Button>
-        <Button type="button" variant="secondary" disabled={isPending}>
+        <Button
+          type="button"
+          variant="secondary"
+          className="w-full sm:w-auto"
+          disabled={isPending}
+        >
           <RotateCcw className="size-4" aria-hidden />
           Manual review
         </Button>

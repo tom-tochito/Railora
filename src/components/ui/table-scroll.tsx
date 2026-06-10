@@ -8,7 +8,7 @@ export function TableScroll({
   return (
     <div
       className={cn(
-        "max-w-full overflow-x-auto overscroll-x-contain scrollbar-thin",
+        "max-w-full overflow-x-auto overscroll-x-contain rounded-md border border-border bg-white/90 scrollbar-thin shadow-inner",
         className,
       )}
       {...props}

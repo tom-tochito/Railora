@@ -1,12 +1,15 @@
 "use client";
 
 import {
+  Activity,
+  ArrowRight,
   CheckCircle2,
   Circle,
   FileUp,
   HandCoins,
   LockKeyhole,
   ShieldAlert,
+  TimerReset,
   UploadCloud,
 } from "lucide-react";
 import { useEffect, useMemo, useState, useTransition } from "react";
@@ -30,6 +33,7 @@ import type {
   OrderMilestone,
 } from "@/lib/domain/types";
 import { Button } from "@/components/ui/button";
+import { InsightMetric } from "@/components/insight-metric";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input, Label } from "@/components/ui/field";
 import { Badge } from "@/components/ui/badge";
@@ -90,6 +94,14 @@ export function EscrowRoomClient({
   }, [ledgerPreview, order, state]);
   const debits = ledgerRows.flatMap((row) => row.entries).reduce((sum, entry) => sum + entry.debitFils, 0);
   const credits = ledgerRows.flatMap((row) => row.entries).reduce((sum, entry) => sum + entry.creditFils, 0);
+  const currentIndex = escrowTimeline.indexOf(state);
+  const timelineProgress =
+    currentIndex >= 0 ? ((currentIndex + 1) / escrowTimeline.length) * 100 : 100;
+  const nextState =
+    currentIndex >= 0 && currentIndex < escrowTimeline.length - 1
+      ? escrowTimeline[currentIndex + 1]
+      : undefined;
+  const ledgerBalanced = debits === credits;
 
   function resultState(data: unknown): EscrowState | undefined {
     if (!data || typeof data !== "object" || !("state" in data)) {
@@ -133,35 +145,75 @@ export function EscrowRoomClient({
                 </Badge>
               </div>
             </div>
-            <div className="min-w-0 rounded-lg border border-border bg-surface-soft p-4 lg:min-w-64">
-              <p className="text-xs uppercase text-muted">Escrow value</p>
-              <p className="mt-2 text-2xl font-semibold">
+            <div className="min-w-0 rounded-lg border border-border bg-ink p-4 text-white shadow-[0_18px_44px_rgba(7,31,28,0.18)] lg:min-w-64">
+              <p className="text-xs uppercase text-white/60">Escrow value</p>
+              <p className="mt-2 text-2xl font-semibold text-white">
                 {formatAED(order.amountFils + order.vatFils)}
               </p>
-              <p className="mt-1 text-xs text-muted">
+              <p className="mt-1 text-xs text-white/60">
                 Fee preview {formatAED(order.feeFils)} · sandbox only
               </p>
             </div>
           </div>
         </Card>
 
+        <div className="grid gap-3 md:grid-cols-3">
+          <InsightMetric
+            label="Current state"
+            value={statusLabel(state)}
+            detail={
+              nextState
+                ? `Next expected movement: ${statusLabel(nextState)}.`
+                : "Room is at a terminal or exception state."
+            }
+            icon={<Activity className="size-4" aria-hidden />}
+            tone="brand"
+          />
+          <InsightMetric
+            label="Due date"
+            value={order.dueDate}
+            detail={`${order.deliveryLocation} delivery context.`}
+            icon={<TimerReset className="size-4" aria-hidden />}
+            tone="accent"
+          />
+          <InsightMetric
+            label="Ledger confidence"
+            value={ledgerBalanced ? "Balanced" : "Review"}
+            detail={`${formatAED(debits)} debits matched to ${formatAED(credits)} credits.`}
+            icon={<CheckCircle2 className="size-4" aria-hidden />}
+            tone={ledgerBalanced ? "success" : "danger"}
+          />
+        </div>
+
         <Card>
           <CardHeader>
             <CardTitle>Status timeline</CardTitle>
             <CardDescription>
-              Explicit state machine from draft through release or dispute.
+              A visible path from draft to release, with exception states called out.
             </CardDescription>
           </CardHeader>
+          <div className="mb-4 h-2 overflow-hidden rounded-full bg-surface-soft">
+            <div
+              className="h-full rounded-full bg-brand transition-all"
+              style={{ width: `${timelineProgress}%` }}
+            />
+          </div>
           <div className="grid min-w-0 gap-3 md:grid-cols-3 xl:grid-cols-5">
             {escrowTimeline.map((step) => {
-              const currentIndex = escrowTimeline.indexOf(state);
               const stepIndex = escrowTimeline.indexOf(step);
               const complete = stepIndex <= currentIndex && currentIndex >= 0;
+              const active = step === state;
 
               return (
                 <div
                   key={step}
-                  className="flex min-h-20 min-w-0 items-center gap-3 rounded-lg border border-border p-3"
+                  className={`flex min-h-20 min-w-0 items-center gap-3 rounded-lg border p-3 ${
+                    active
+                      ? "border-brand bg-teal-50"
+                      : complete
+                        ? "border-emerald-200 bg-emerald-50/60"
+                        : "border-border"
+                  }`}
                 >
                   {complete ? (
                     <CheckCircle2 className="size-5 text-success" aria-hidden />
@@ -175,6 +227,11 @@ export function EscrowRoomClient({
               );
             })}
           </div>
+          {currentIndex < 0 ? (
+            <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
+              Exception state active: {statusLabel(state)}.
+            </div>
+          ) : null}
         </Card>
 
         <Card>
@@ -206,12 +263,13 @@ export function EscrowRoomClient({
           <CardHeader>
             <CardTitle>Sandbox actions</CardTitle>
             <CardDescription>
-              Buttons call server actions, enforce role checks, and record audit events.
+              Move the room through funding, proof, release, risk review, and dispute paths.
             </CardDescription>
           </CardHeader>
           <div className="flex flex-wrap gap-3">
             <Button
               type="button"
+              className="w-full sm:w-auto"
               disabled={!hydrated || isPending || state !== "awaiting_funding"}
               onClick={() => runAction(() => fundEscrowSandbox({ orderId: order.id }))}
             >
@@ -221,6 +279,7 @@ export function EscrowRoomClient({
             <Button
               type="button"
               variant="secondary"
+              className="w-full sm:w-auto"
               disabled={
                 !hydrated || isPending || !["funded", "in_progress"].includes(state)
               }
@@ -232,6 +291,7 @@ export function EscrowRoomClient({
             <Button
               type="button"
               variant="secondary"
+              className="w-full sm:w-auto"
               disabled={!hydrated || isPending || state !== "proof_submitted"}
               onClick={() => runAction(() => requestRelease({ orderId: order.id }))}
             >
@@ -240,6 +300,7 @@ export function EscrowRoomClient({
             </Button>
             <Button
               type="button"
+              className="w-full sm:w-auto"
               disabled={!hydrated || isPending || state !== "release_requested"}
               onClick={() => runAction(() => approveRelease({ orderId: order.id }))}
             >
@@ -249,6 +310,7 @@ export function EscrowRoomClient({
             <Button
               type="button"
               variant="danger"
+              className="w-full sm:w-auto"
               disabled={!hydrated || isPending}
               onClick={() =>
                 runAction(() =>
@@ -265,6 +327,7 @@ export function EscrowRoomClient({
             <Button
               type="button"
               variant="ghost"
+              className="w-full sm:w-auto"
               onClick={() => {
                 try {
                   transitionEscrowState(state, "refunded");
@@ -279,9 +342,11 @@ export function EscrowRoomClient({
             <Button
               type="button"
               variant="ghost"
+              className="w-full sm:w-auto"
               disabled={!hydrated || isPending}
               onClick={() => runAction(() => runRiskCheck({ orderId: order.id }))}
             >
+              <ArrowRight className="size-4" aria-hidden />
               Run risk check
             </Button>
           </div>
@@ -370,7 +435,7 @@ export function EscrowRoomClient({
           <CardHeader>
             <CardTitle>Evidence upload</CardTitle>
             <CardDescription>
-              Uploads are metadata-only and queued for mock scan jobs.
+              Queue supporting evidence for the room record.
             </CardDescription>
           </CardHeader>
           <div className="space-y-3">

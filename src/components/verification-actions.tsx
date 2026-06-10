@@ -17,6 +17,7 @@ export function VerificationActions({ businessId }: { businessId: string }) {
     <div className="space-y-4">
       <Button
         type="button"
+        className="w-full sm:w-auto"
         disabled={isPending}
         onClick={() =>
           startTransition(async () => {
@@ -62,9 +63,14 @@ export function VerificationActions({ businessId }: { businessId: string }) {
             defaultValue="railora-demo-upload.pdf"
           />
         </div>
-        <Button type="submit" variant="secondary" disabled={isPending}>
+        <Button
+          type="submit"
+          variant="secondary"
+          className="w-full sm:w-auto"
+          disabled={isPending}
+        >
           <UploadCloud className="size-4" aria-hidden />
-          Store upload metadata
+          Queue document
         </Button>
         <p className="self-center text-sm text-muted" role="status">
           {message}

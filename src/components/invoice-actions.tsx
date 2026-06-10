@@ -13,11 +13,12 @@ export function InvoiceActions({ invoiceId }: { invoiceId: string }) {
   const [isPending, startTransition] = useTransition();
 
   return (
-    <div className="flex flex-wrap items-center gap-2">
+    <div className="flex flex-col items-stretch gap-2 sm:flex-row sm:flex-wrap sm:items-center">
       <Button
         type="button"
         variant="secondary"
         size="sm"
+        className="w-full sm:w-auto"
         disabled={isPending}
         onClick={() =>
           startTransition(async () => {
@@ -37,6 +38,7 @@ export function InvoiceActions({ invoiceId }: { invoiceId: string }) {
         type="button"
         variant="secondary"
         size="sm"
+        className="w-full sm:w-auto"
         disabled={isPending}
         onClick={() =>
           startTransition(async () => {
@@ -48,11 +50,11 @@ export function InvoiceActions({ invoiceId }: { invoiceId: string }) {
         <Link2 className="size-4" aria-hidden />
         Convert to escrow
       </Button>
-      <Button type="button" variant="ghost" size="sm">
+      <Button type="button" variant="ghost" size="sm" className="w-full sm:w-auto">
         <FileDown className="size-4" aria-hidden />
         Mock PDF
       </Button>
-      <span className="text-xs text-muted" role="status">
+      <span className="text-xs leading-5 text-muted" role="status">
         {message}
       </span>
     </div>

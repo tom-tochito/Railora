@@ -1,6 +1,9 @@
+import { FileText, Scale, ShieldAlert } from "lucide-react";
 import { notFound } from "next/navigation";
 import { AppShell } from "@/components/app-shell";
 import { DisputeActions } from "@/components/dispute-actions";
+import { InsightMetric } from "@/components/insight-metric";
+import { PageHeader } from "@/components/page-header";
 import { EscrowStatusBadge } from "@/components/status-badge";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -32,13 +35,35 @@ export default async function DisputePage({
 
   return (
     <AppShell>
-      <div className="mb-6">
-        <Badge tone="danger">Dispute room</Badge>
-        <h1 className="mt-3 text-3xl font-semibold">{dispute.reason}</h1>
-        <p className="mt-2 max-w-3xl text-sm leading-6 text-muted">
-          Evidence, chat-style event log, proposed resolution, and admin-only
-          actions for sandbox dispute handling.
-        </p>
+      <PageHeader
+        badge="Dispute room"
+        title={dispute.reason}
+        description="Evidence, conversation history, proposed resolution, and admin controls stay together for a calm exception workflow."
+        tone="danger"
+      />
+
+      <div className="mb-6 grid gap-3 md:grid-cols-3">
+        <InsightMetric
+          label="Dispute status"
+          value={dispute.status.replaceAll("_", " ")}
+          detail={`Opened ${dispute.openedAt.slice(0, 10)} for active review.`}
+          icon={<ShieldAlert className="size-4" aria-hidden />}
+          tone="danger"
+        />
+        <InsightMetric
+          label="Proposed path"
+          value={dispute.proposedResolution.replaceAll("_", " ")}
+          detail="Resolution remains sandbox-only until an admin action is run."
+          icon={<Scale className="size-4" aria-hidden />}
+          tone="accent"
+        />
+        <InsightMetric
+          label="Evidence"
+          value={evidence.length}
+          detail={`${messages.length} event-log messages attached.`}
+          icon={<FileText className="size-4" aria-hidden />}
+          tone="brand"
+        />
       </div>
 
       <div className="grid min-w-0 gap-6 xl:grid-cols-[1.35fr_0.7fr]">
@@ -94,8 +119,9 @@ export default async function DisputePage({
                   <p className="break-words text-sm font-semibold">
                     {document.fileName}
                   </p>
-                  <p className="mt-2 break-all text-xs leading-5 text-muted">
-                    {document.storageKey}
+                  <p className="mt-2 break-words text-xs leading-5 text-muted">
+                    {document.type.replaceAll("_", " ")} · uploaded{" "}
+                    {document.uploadedAt.slice(0, 10)}
                   </p>
                   <div className="mt-4">
                     <Badge tone="neutral">{document.status}</Badge>
@@ -130,11 +156,11 @@ export default async function DisputePage({
           </Card>
         </div>
 
-        <Card>
+        <Card className="xl:sticky xl:top-24 xl:self-start">
           <CardHeader>
             <CardTitle>Admin resolution</CardTitle>
             <CardDescription>
-              Requires platform admin demo role. Actions record audit events.
+              Platform-risk actions record audit events in the demo ledger.
             </CardDescription>
           </CardHeader>
           <DisputeActions disputeId={dispute.id} />

@@ -1,5 +1,14 @@
+import { AlertTriangle, Database, ShieldCheck, Users } from "lucide-react";
 import { AdminActions } from "@/components/admin-actions";
 import { AppShell } from "@/components/app-shell";
+import { InsightMetric } from "@/components/insight-metric";
+import { PageHeader } from "@/components/page-header";
+import {
+  DesktopRecordTable,
+  RecordField,
+  ResponsiveRecordCard,
+  ResponsiveRecordList,
+} from "@/components/responsive-record-list";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { TableScroll } from "@/components/ui/table-scroll";
@@ -12,16 +21,42 @@ export default function AdminPage() {
   const flaggedOrders = orders.filter(
     (order) => order.riskLevel !== "low" || order.state === "disputed",
   );
+  const flaggedValue = flaggedOrders.reduce(
+    (sum, order) => sum + order.amountFils + order.vatFils,
+    0,
+  );
 
   return (
     <AppShell>
-      <div className="mb-6">
-        <Badge tone="danger">Platform risk/admin</Badge>
-        <h1 className="mt-3 text-3xl font-semibold">Railora admin console</h1>
-        <p className="mt-2 max-w-3xl text-sm leading-6 text-muted">
-          Search demo users, businesses, orders, review flags, freeze/unfreeze
-          orders, trigger reconciliation, and export audit logs.
-        </p>
+      <PageHeader
+        badge="Platform risk/admin"
+        title="Railora admin console"
+        description="A focused operating view for elevated orders, audit evidence, reconciliation actions, and workspace-wide search snapshots."
+        tone="danger"
+      />
+
+      <div className="mb-6 grid gap-3 md:grid-cols-3">
+        <InsightMetric
+          label="Flagged value"
+          value={formatAED(flaggedValue)}
+          detail={`${flaggedOrders.length} orders need risk attention.`}
+          icon={<AlertTriangle className="size-4" aria-hidden />}
+          tone="danger"
+        />
+        <InsightMetric
+          label="Audit events"
+          value={auditEvents.length}
+          detail="Immutable demo events available for export."
+          icon={<Database className="size-4" aria-hidden />}
+          tone="brand"
+        />
+        <InsightMetric
+          label="Workspace users"
+          value={users.length}
+          detail={`${businesses.length} businesses represented in seed data.`}
+          icon={<Users className="size-4" aria-hidden />}
+          tone="accent"
+        />
       </div>
 
       <div className="grid min-w-0 gap-6 xl:grid-cols-[1fr_0.8fr]">
@@ -33,42 +68,83 @@ export default function AdminPage() {
                 Orders with disputes, verification friction, or elevated risk.
               </CardDescription>
             </CardHeader>
-            <TableScroll>
-              <table className="w-full min-w-[640px] text-left text-sm">
-                <thead className="border-b border-border text-xs uppercase text-muted">
-                  <tr>
-                    <th className="py-3 pr-4">Reference</th>
-                    <th className="py-3 pr-4">Amount</th>
-                    <th className="py-3 pr-4">State</th>
-                    <th className="py-3 pr-4">Risk</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border">
-                  {flaggedOrders.map((order) => (
-                    <tr key={order.id}>
-                      <td className="py-3 pr-4 font-semibold">{order.reference}</td>
-                      <td className="py-3 pr-4">
-                        {formatAED(order.amountFils + order.vatFils)}
-                      </td>
-                      <td className="py-3 pr-4">{order.state.replaceAll("_", " ")}</td>
-                      <td className="py-3 pr-4">
-                        <Badge
-                          tone={
-                            order.riskLevel === "high"
-                              ? "danger"
-                              : order.riskLevel === "medium"
-                                ? "warning"
-                                : "success"
-                          }
-                        >
-                          {order.riskLevel}
-                        </Badge>
-                      </td>
+            <ResponsiveRecordList>
+              {flaggedOrders.map((order) => (
+                <ResponsiveRecordCard key={order.id}>
+                  <div className="flex min-w-0 items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="break-words text-base font-semibold">
+                        {order.reference}
+                      </p>
+                      <p className="mt-1 break-words text-sm text-muted">
+                        {order.title}
+                      </p>
+                    </div>
+                    <Badge
+                      tone={
+                        order.riskLevel === "high"
+                          ? "danger"
+                          : order.riskLevel === "medium"
+                            ? "warning"
+                            : "success"
+                      }
+                    >
+                      {order.riskLevel}
+                    </Badge>
+                  </div>
+                  <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                    <RecordField
+                      label="Amount"
+                      value={formatAED(order.amountFils + order.vatFils)}
+                    />
+                    <RecordField label="State" value={order.state.replaceAll("_", " ")} />
+                    <RecordField label="Due" value={order.dueDate} />
+                  </div>
+                </ResponsiveRecordCard>
+              ))}
+            </ResponsiveRecordList>
+            <DesktopRecordTable>
+              <TableScroll>
+                <table className="w-full min-w-[640px] text-left text-sm">
+                  <thead className="border-b border-border text-xs uppercase text-muted">
+                    <tr>
+                      <th className="py-3 pl-4 pr-4">Reference</th>
+                      <th className="py-3 pr-4">Amount</th>
+                      <th className="py-3 pr-4">State</th>
+                      <th className="py-3 pr-4">Risk</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </TableScroll>
+                  </thead>
+                  <tbody className="divide-y divide-border">
+                    {flaggedOrders.map((order) => (
+                      <tr key={order.id}>
+                        <td className="py-3 pl-4 pr-4 font-semibold">
+                          {order.reference}
+                        </td>
+                        <td className="py-3 pr-4">
+                          {formatAED(order.amountFils + order.vatFils)}
+                        </td>
+                        <td className="py-3 pr-4">
+                          {order.state.replaceAll("_", " ")}
+                        </td>
+                        <td className="py-3 pr-4">
+                          <Badge
+                            tone={
+                              order.riskLevel === "high"
+                                ? "danger"
+                                : order.riskLevel === "medium"
+                                  ? "warning"
+                                  : "success"
+                            }
+                          >
+                            {order.riskLevel}
+                          </Badge>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </TableScroll>
+            </DesktopRecordTable>
           </Card>
 
           <Card>
@@ -104,7 +180,7 @@ export default function AdminPage() {
             <CardHeader>
               <CardTitle>Admin actions</CardTitle>
               <CardDescription>
-                Platform operator permissions are enforced by server actions.
+                Platform-risk controls for review, reconciliation, and audit export.
               </CardDescription>
             </CardHeader>
             <AdminActions />
@@ -115,22 +191,20 @@ export default function AdminPage() {
               <CardTitle>Search snapshots</CardTitle>
             </CardHeader>
             <div className="grid gap-3 text-sm">
-              <div className="rounded-lg border border-border p-4">
-                <p className="font-semibold">{users.length} users</p>
-                <p className="mt-1 text-muted">Buyers, sellers, admins</p>
-              </div>
-              <div className="rounded-lg border border-border p-4">
-                <p className="font-semibold">{businesses.length} businesses</p>
-                <p className="mt-1 text-muted">Mainland, free-zone, freelancer</p>
-              </div>
-              <div className="rounded-lg border border-border p-4">
-                <p className="font-semibold">{disputes.length} disputes</p>
-                <p className="mt-1 text-muted">Active and under review</p>
-              </div>
-              <div className="rounded-lg border border-border p-4">
-                <p className="font-semibold">{riskScores.length} risk scores</p>
-                <p className="mt-1 text-muted">Low, medium, high examples</p>
-              </div>
+              {[
+                [`${users.length} users`, "Buyers, sellers, admins"],
+                [`${businesses.length} businesses`, "Mainland, free-zone, freelancer"],
+                [`${disputes.length} disputes`, "Active and under review"],
+                [`${riskScores.length} risk scores`, "Low, medium, high examples"],
+              ].map(([label, detail]) => (
+                <div key={label} className="rounded-lg border border-border p-4">
+                  <div className="flex items-center gap-2">
+                    <ShieldCheck className="size-4 text-brand" aria-hidden />
+                    <p className="font-semibold">{label}</p>
+                  </div>
+                  <p className="mt-1 text-muted">{detail}</p>
+                </div>
+              ))}
             </div>
           </Card>
         </div>

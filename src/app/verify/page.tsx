@@ -1,24 +1,54 @@
-import { FileText, Landmark, UserCheck } from "lucide-react";
+import { CheckCircle2, Clock3, FileText, Landmark, UserCheck } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
+import { InsightMetric } from "@/components/insight-metric";
+import { PageHeader } from "@/components/page-header";
 import { VerificationActions } from "@/components/verification-actions";
 import { VerificationBadge } from "@/components/status-badge";
-import { Badge } from "@/components/ui/badge";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { businesses, documents, verificationChecks } from "@/lib/data/seed";
 
 export default function VerificationPage() {
   const business = businesses[0];
+  const verifiedChecks = verificationChecks.filter(
+    (check) => check.status === "verified",
+  ).length;
+  const reviewChecks = verificationChecks.filter(
+    (check) => check.status === "pending" || check.status === "requires_review",
+  ).length;
+  const verifiedDocuments = documents.filter(
+    (document) => document.status === "verified",
+  ).length;
 
   return (
     <AppShell>
-      <div className="mb-6">
-        <Badge tone="brand">Verification center</Badge>
-        <h1 className="mt-3 text-3xl font-semibold">{business.legalName}</h1>
-        <p className="mt-2 max-w-3xl text-sm leading-6 text-muted">
-          Mock UAE PASS, Dubai Unified Licence, VAT/TRN, bank ownership,
-          beneficial owner, and sanctions/PEP checks. Real providers are not
-          connected in this prototype.
-        </p>
+      <PageHeader
+        badge="Verification center"
+        title={business.legalName}
+        description="A consolidated identity, licence, ownership, bank, tax, and watchlist profile for higher-confidence trade decisions."
+      />
+
+      <div className="mb-6 grid gap-3 md:grid-cols-3">
+        <InsightMetric
+          label="Checks complete"
+          value={`${verifiedChecks} / ${verificationChecks.length}`}
+          detail="Verified signals are ready for escrow context."
+          icon={<CheckCircle2 className="size-4" aria-hidden />}
+          tone="success"
+        />
+        <InsightMetric
+          label="Review queue"
+          value={reviewChecks}
+          detail="Open items remain visible before funding decisions."
+          icon={<Clock3 className="size-4" aria-hidden />}
+          tone="accent"
+        />
+        <InsightMetric
+          label="Documents verified"
+          value={`${verifiedDocuments} / ${documents.length}`}
+          detail="Records stay attached to the workspace audit story."
+          icon={<FileText className="size-4" aria-hidden />}
+          tone="brand"
+        />
       </div>
 
       <div className="grid min-w-0 gap-6 xl:grid-cols-[1.25fr_0.75fr]">
@@ -26,7 +56,7 @@ export default function VerificationPage() {
           <CardHeader>
             <CardTitle>Verification checklist</CardTitle>
             <CardDescription>
-              Status chips are seeded and can be refreshed through mock adapters.
+              Provider signals are represented with seeded sandbox responses.
             </CardDescription>
           </CardHeader>
           <div className="grid gap-3">
@@ -63,7 +93,7 @@ export default function VerificationPage() {
             <CardHeader>
               <CardTitle>Upload documents</CardTitle>
               <CardDescription>
-                Metadata is stored against a mock R2 key for document scan jobs.
+                Add supporting records for the demo scan queue.
               </CardDescription>
             </CardHeader>
             <VerificationActions businessId={business.id} />
@@ -82,8 +112,9 @@ export default function VerificationPage() {
                   <p className="break-words text-sm font-semibold">
                     {document.fileName}
                   </p>
-                  <p className="mt-1 break-all text-xs text-muted">
-                    {document.storageKey}
+                  <p className="mt-1 break-words text-xs text-muted">
+                    {document.type.replaceAll("_", " ")} · uploaded{" "}
+                    {document.uploadedAt.slice(0, 10)}
                   </p>
                   <div className="mt-2">
                     <VerificationBadge status={document.status} />

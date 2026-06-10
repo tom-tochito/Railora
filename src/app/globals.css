@@ -1,15 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f6f7f4;
-  --foreground: #10211f;
-  --muted: #66736f;
-  --border: #d9dfd8;
-  --surface: #ffffff;
-  --surface-soft: #eef3ef;
-  --brand: #0f766e;
-  --brand-dark: #064e3b;
-  --accent: #c8a44d;
+  --background: #f5f3ed;
+  --foreground: #0e1917;
+  --muted: #62706b;
+  --border: #ded8ca;
+  --surface: #fffdf8;
+  --surface-soft: #f0eee5;
+  --brand: #0b7a75;
+  --brand-dark: #053f3b;
+  --accent: #be8b2f;
+  --ink: #071f1c;
+  --ink-soft: #12322e;
+  --platinum: #fbf7ee;
   --danger: #b42318;
   --warning: #b7791f;
   --success: #087443;
@@ -25,6 +28,9 @@
   --color-brand: var(--brand);
   --color-brand-dark: var(--brand-dark);
   --color-accent: var(--accent);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-platinum: var(--platinum);
   --color-danger: var(--danger);
   --color-warning: var(--warning);
   --color-success: var(--success);
@@ -34,6 +40,9 @@
 
 body {
   background: var(--background);
+  background-image:
+    linear-gradient(180deg, rgba(255, 253, 248, 0.86), rgba(245, 243, 237, 0.96) 48%, rgba(238, 235, 225, 1)),
+    linear-gradient(90deg, rgba(7, 31, 28, 0.035), rgba(190, 139, 47, 0.04));
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   letter-spacing: 0;
@@ -41,6 +50,10 @@ body {
 
 * {
   box-sizing: border-box;
+}
+
+html {
+  text-rendering: optimizeLegibility;
 }
 
 button,
@@ -52,12 +65,12 @@ textarea {
 }
 
 ::selection {
-  background: rgba(15, 118, 110, 0.2);
+  background: rgba(11, 122, 117, 0.2);
 }
 
 .railora-hero {
   background-image:
-    linear-gradient(90deg, rgba(8, 32, 29, 0.82), rgba(8, 32, 29, 0.42)),
+    linear-gradient(90deg, rgba(7, 31, 28, 0.9), rgba(7, 31, 28, 0.5) 54%, rgba(7, 31, 28, 0.18)),
     url("https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=2400&q=80");
   background-position: center;
   background-size: cover;
@@ -65,5 +78,46 @@ textarea {
 
 .scrollbar-thin {
   scrollbar-width: thin;
-  scrollbar-color: rgba(15, 118, 110, 0.35) transparent;
+  scrollbar-color: rgba(11, 122, 117, 0.35) transparent;
+}
+
+.premium-panel {
+  background:
+    linear-gradient(145deg, rgba(255, 253, 248, 0.98), rgba(246, 241, 229, 0.95)),
+    linear-gradient(90deg, rgba(190, 139, 47, 0.08), rgba(11, 122, 117, 0.06));
+}
+
+@keyframes railora-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes railora-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-railora-rise {
+  animation: railora-rise 480ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }

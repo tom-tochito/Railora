@@ -10,9 +10,10 @@ export function AdminActions() {
   const [isPending, startTransition] = useTransition();
 
   return (
-    <div className="flex flex-wrap gap-3">
+    <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
       <Button
         type="button"
+        className="w-full sm:w-auto"
         disabled={isPending}
         onClick={() =>
           startTransition(async () => {
@@ -22,11 +23,12 @@ export function AdminActions() {
         }
       >
         <Snowflake className="size-4" aria-hidden />
-        Freeze review
+        {isPending ? "Working" : "Freeze review"}
       </Button>
       <Button
         type="button"
         variant="secondary"
+        className="w-full sm:w-auto"
         disabled={isPending}
         onClick={() =>
           startTransition(async () => {
@@ -41,6 +43,7 @@ export function AdminActions() {
       <Button
         type="button"
         variant="secondary"
+        className="w-full sm:w-auto"
         onClick={() => {
           window.location.href = "/api/audit";
         }}
