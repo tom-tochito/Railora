@@ -1,6 +1,50 @@
 @import "tailwindcss";
 
 :root {
+  /* Default = dark terminal theme. Light is opt-in via [data-theme="light"]. */
+  color-scheme: dark;
+  --background: #0a0c10;
+  --foreground: #e8edf4;
+  --muted: #8a93a4;
+  --muted-strong: #b6bdca;
+  --border: #1f2530;
+  --border-strong: #323a47;
+  --surface: #12151c;
+  --surface-soft: #171b24;
+  --surface-muted: #1d222c;
+  --surface-elevated: #1a1f29;
+  --brand: #6d78ff;
+  --brand-dark: #4f46e5;
+  --brand-soft: #1a1f3a;
+  --accent: #6d78ff;
+  --privacy: #c084fc;
+  --privacy-soft: #2a1f3d;
+  --ink: #0c0e13;
+  --ink-soft: #161a21;
+  --platinum: #14171d;
+  --danger: #f97066;
+  --danger-soft: #2a1614;
+  --warning: #f5b544;
+  --warning-soft: #2a2110;
+  --success: #34d399;
+  --success-soft: #0f2a20;
+  --focus: #818cf8;
+  --chart-1: #818cf8;
+  --chart-2: #34d399;
+  --chart-3: #c084fc;
+  --chart-4: #f5b544;
+  --chart-5: #f97066;
+  --radius-control: 0.625rem;
+  --radius-panel: 1rem;
+  --radius-card: 0.875rem;
+  --shadow-soft: 0 1px 0 rgba(0, 0, 0, 0.4), 0 14px 36px rgba(0, 0, 0, 0.34);
+  --shadow-float: 0 28px 80px rgba(0, 0, 0, 0.58);
+  --duration-fast: 150ms;
+  --duration-base: 220ms;
+  --ease-railora: cubic-bezier(0.2, 0, 0, 1);
+}
+
+[data-theme="light"] {
   color-scheme: light;
   --background: #f7f6f1;
   --foreground: #151617;
@@ -33,14 +77,8 @@
   --chart-3: #7c3aed;
   --chart-4: #b7791f;
   --chart-5: #dc2626;
-  --radius-control: 0.625rem;
-  --radius-panel: 1rem;
-  --radius-card: 0.875rem;
   --shadow-soft: 0 16px 42px rgba(17, 18, 20, 0.06);
   --shadow-float: 0 24px 80px rgba(17, 18, 20, 0.16);
-  --duration-fast: 150ms;
-  --duration-base: 220ms;
-  --ease-railora: cubic-bezier(0.2, 0, 0, 1);
 }
 
 @theme inline {
@@ -86,11 +124,22 @@
 }
 
 body {
-  background: var(--background);
-  background-image: linear-gradient(180deg, rgba(255, 254, 250, 0.96), rgba(247, 246, 241, 1) 46%, rgba(239, 238, 232, 1));
+  background-color: var(--background);
+  background-image:
+    radial-gradient(1100px 560px at 100% -8%, color-mix(in srgb, var(--brand) 12%, transparent), transparent 60%),
+    radial-gradient(900px 480px at -5% 0%, color-mix(in srgb, var(--privacy) 8%, transparent), transparent 55%),
+    linear-gradient(180deg, color-mix(in srgb, var(--surface) 55%, transparent), transparent 38%);
+  background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   letter-spacing: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  body {
+    transition: background-color var(--duration-base) var(--ease-railora),
+      color var(--duration-base) var(--ease-railora);
+  }
 }
 
 * {
@@ -136,6 +185,28 @@ textarea {
   font-variant-numeric: tabular-nums;
 }
 
+.amount-mono {
+  font-family: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.eyebrow {
+  font-family: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.6875rem;
+  line-height: 1;
+}
+
+/* Hairline grid frame for dense terminal panels. */
+.terminal-grid {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--border) 60%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--border) 60%, transparent) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
 .railora-focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
@@ -171,40 +242,106 @@ textarea {
 }
 
 .animate-railora-rise {
-  animation: railora-rise 420ms var(--ease-railora) both;
+  animation: railora-rise 520ms var(--ease-railora) both;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-    --background: #0f1012;
-    --foreground: #f4f2ec;
-    --muted: #aaa79f;
-    --muted-strong: #cbc7be;
-    --border: #2a2b2e;
-    --border-strong: #3a3b40;
-    --surface: #15161a;
-    --surface-soft: #1c1d22;
-    --surface-muted: #23242a;
-    --surface-elevated: #1a1b20;
-    --brand: #818cf8;
-    --brand-dark: #6366f1;
-    --brand-soft: #20223a;
-    --privacy: #c084fc;
-    --privacy-soft: #2c1f3e;
-    --ink: #f7f5ef;
-    --ink-soft: #d9d6ce;
-    --platinum: #18191d;
-    --danger: #f87171;
-    --danger-soft: #341b1d;
-    --warning: #fbbf24;
-    --warning-soft: #2d2413;
-    --success: #34d399;
-    --success-soft: #12291f;
-    --focus: #a5b4fc;
-    --shadow-soft: 0 18px 48px rgba(0, 0, 0, 0.26);
-    --shadow-float: 0 28px 90px rgba(0, 0, 0, 0.46);
+@keyframes railora-fade {
+  from {
+    opacity: 0;
   }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes railora-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes railora-grow {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes railora-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes railora-dot {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.55;
+  }
+  70%,
+  100% {
+    transform: translate(-50%, -50%) scale(3.2);
+    opacity: 0;
+  }
+}
+
+.animate-railora-fade {
+  animation: railora-fade 600ms var(--ease-railora) both;
+}
+
+.animate-railora-pop {
+  animation: railora-pop 480ms var(--ease-railora) both;
+}
+
+/* Lift + glow on hover for interactive panels. */
+.hover-lift {
+  transition: transform var(--duration-base) var(--ease-railora),
+    box-shadow var(--duration-base) var(--ease-railora),
+    border-color var(--duration-base) var(--ease-railora);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hover-lift:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-float);
+  }
+}
+
+/* SVG chart draw-in. Paths use pathLength="100". */
+.chart-line {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: railora-draw 1400ms var(--ease-railora) 120ms forwards;
+}
+
+.chart-area {
+  opacity: 0;
+  animation: railora-fade 900ms var(--ease-railora) 360ms forwards;
+}
+
+.chart-bar {
+  transform-origin: bottom;
+  animation: railora-grow 720ms var(--ease-railora) both;
+}
+
+.chart-dot {
+  transform: translate(-50%, -50%);
+}
+
+.chart-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: currentColor;
+  animation: railora-dot 2200ms var(--ease-railora) infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {

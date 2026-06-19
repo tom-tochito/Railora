@@ -9,31 +9,39 @@ import { Badge } from "@/components/ui/badge";
 
 export default function AuthPage() {
   return (
-    <main className="min-h-screen bg-background px-4 py-10 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-background px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-5xl">
-        <div className="mb-8 flex min-w-0 items-center justify-between gap-4">
+        <div className="mb-10 flex min-w-0 items-center justify-between gap-4">
           <div className="min-w-0">
-            <Badge tone="privacy">Private access</Badge>
-            <h1 className="mt-4 max-w-3xl break-words text-4xl font-semibold leading-tight sm:text-5xl">
+            <Badge tone="privacy" className="animate-railora-rise">Private access</Badge>
+            <h1
+              className="animate-railora-rise mt-5 max-w-3xl break-words text-4xl font-semibold leading-tight tracking-tight sm:text-5xl"
+              style={{ animationDelay: "80ms" }}
+            >
               Enter the Railora One workspace
             </h1>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
+            <p
+              className="animate-railora-rise mt-3 max-w-2xl text-sm leading-6 text-muted"
+              style={{ animationDelay: "160ms" }}
+            >
               Choose a demo role and step into the payment operations console
               with payments, routing, privacy, settlement, KYB, and risk controls.
             </p>
           </div>
-          <div className="hidden size-12 shrink-0 items-center justify-center rounded-[var(--radius-control)] bg-ink text-brand shadow-[var(--shadow-soft)] sm:flex">
+          <div className="animate-railora-pop hidden size-12 shrink-0 items-center justify-center rounded-[var(--radius-control)] border border-brand/30 bg-ink text-brand shadow-[var(--shadow-float)] sm:flex">
             <ShieldCheck className="size-5" aria-hidden />
           </div>
         </div>
 
-        <div className="mb-5 grid gap-3 md:grid-cols-3">
+        <div className="mb-6 grid gap-4 md:grid-cols-3">
           <InsightMetric
             label="Demo roles"
             value="4"
             detail="Merchant, beneficiary, business admin, and platform risk access."
             icon={<Sparkles className="size-4" aria-hidden />}
             tone="accent"
+            className="hover-lift animate-railora-rise"
+            style={{ animationDelay: "120ms" }}
           />
           <InsightMetric
             label="Identity posture"
@@ -41,6 +49,8 @@ export default function AuthPage() {
             detail="UAE PASS, email, privacy, and Turnstile are represented safely."
             icon={<LockKeyhole className="size-4" aria-hidden />}
             tone="brand"
+            className="hover-lift animate-railora-rise"
+            style={{ animationDelay: "200ms" }}
           />
           <InsightMetric
             label="Workspace"
@@ -48,11 +58,13 @@ export default function AuthPage() {
             detail="Payments, routing, invoices, disputes, scores, and audit events are ready."
             icon={<ShieldCheck className="size-4" aria-hidden />}
             tone="success"
+            className="hover-lift animate-railora-rise"
+            style={{ animationDelay: "280ms" }}
           />
         </div>
 
-        <div className="grid min-w-0 gap-5 lg:grid-cols-[0.9fr_1.1fr]">
-          <Card className="premium-panel">
+        <div className="grid min-w-0 gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+          <Card className="premium-panel animate-railora-rise" style={{ animationDelay: "200ms" }}>
             <CardHeader>
               <CardTitle>Mock UAE PASS</CardTitle>
               <CardDescription>
@@ -77,7 +89,7 @@ export default function AuthPage() {
             </form>
           </Card>
 
-          <Card>
+          <Card className="animate-railora-rise" style={{ animationDelay: "280ms" }}>
             <CardHeader>
               <CardTitle>Email access</CardTitle>
               <CardDescription>
@@ -122,17 +134,22 @@ export default function AuthPage() {
           </Card>
         </div>
 
-        <div className="mt-6 grid min-w-0 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 grid min-w-0 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {users
             .filter((user, index, list) => {
               return list.findIndex((item) => item.role === user.role) === index;
             })
-            .map((user) => (
-              <Card key={user.role} className="p-4">
+            .map((user, index) => (
+              <Card
+                key={user.role}
+                className="hover-lift animate-railora-rise p-4"
+                style={{ animationDelay: `${index * 70}ms` }}
+              >
                 <p className="break-words text-sm font-semibold">{user.name}</p>
-                <p className="mt-1 break-words text-xs text-muted">
-                  {user.role.replaceAll("_", " ")} · {user.mobile}
+                <p className="eyebrow mt-2 break-words text-muted">
+                  {user.role.replaceAll("_", " ")}
                 </p>
+                <p className="amount-mono mt-1 break-words text-xs text-muted">{user.mobile}</p>
               </Card>
             ))}
         </div>

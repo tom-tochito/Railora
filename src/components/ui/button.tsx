@@ -9,15 +9,15 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          "border border-brand/20 bg-brand text-white shadow-[0_12px_28px_color-mix(in_srgb,var(--brand)_26%,transparent)] motion-safe:hover:-translate-y-0.5 hover:bg-brand-dark focus-visible:outline-focus active:translate-y-0",
+          "border border-brand/40 bg-brand text-white shadow-[0_8px_22px_color-mix(in_srgb,var(--brand)_20%,transparent)] motion-safe:hover:-translate-y-0.5 hover:bg-brand-dark focus-visible:outline-focus active:translate-y-0",
         secondary:
           "border border-border bg-surface-elevated text-foreground motion-safe:hover:-translate-y-0.5 hover:border-brand/40 hover:bg-surface-soft focus-visible:outline-focus active:translate-y-0",
         ghost:
           "text-foreground shadow-none hover:bg-surface-soft focus-visible:outline-focus",
         danger:
-          "border border-danger/20 bg-danger text-white shadow-[0_12px_28px_color-mix(in_srgb,var(--danger)_22%,transparent)] motion-safe:hover:-translate-y-0.5 hover:brightness-95 focus-visible:outline-danger active:translate-y-0",
+          "border border-danger/40 bg-danger text-white shadow-[0_8px_22px_color-mix(in_srgb,var(--danger)_18%,transparent)] motion-safe:hover:-translate-y-0.5 hover:brightness-95 focus-visible:outline-danger active:translate-y-0",
         privacy:
-          "border border-privacy/20 bg-privacy text-white shadow-[0_12px_28px_color-mix(in_srgb,var(--privacy)_22%,transparent)] motion-safe:hover:-translate-y-0.5 hover:brightness-95 focus-visible:outline-privacy active:translate-y-0",
+          "border border-privacy/40 bg-privacy text-white shadow-[0_8px_22px_color-mix(in_srgb,var(--privacy)_18%,transparent)] motion-safe:hover:-translate-y-0.5 hover:brightness-95 focus-visible:outline-privacy active:translate-y-0",
       },
       size: {
         sm: "min-h-11 px-3 text-xs sm:min-h-9",

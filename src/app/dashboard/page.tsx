@@ -10,6 +10,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
+import { Sparkline } from "@/components/charts/sparkline";
 import { AmountDisplay } from "@/components/finance/amount-display";
 import { InsightMetric } from "@/components/insight-metric";
 import { PageHeader } from "@/components/page-header";
@@ -22,6 +23,7 @@ import {
   railoraOneSummary,
   settlementBatches,
   transactionFeed,
+  volumeTrend,
 } from "@/lib/data/railora-one";
 import { businesses, orders } from "@/lib/data/seed";
 import { formatAED } from "@/lib/domain/money";
@@ -76,21 +78,21 @@ export default function DashboardPage() {
         }
       />
 
-      <section className="mb-6 grid min-w-0 gap-4 xl:grid-cols-[1.3fr_0.7fr]">
-        <Card className="overflow-hidden border-brand/20 bg-ink text-white">
-          <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+      <section className="mb-8 grid min-w-0 gap-5 xl:grid-cols-[1.3fr_0.7fr]">
+        <Card className="animate-railora-rise overflow-hidden border-brand/20 bg-ink text-white">
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2">
                 <Badge tone="success">Sandbox</Badge>
                 <Badge tone="privacy">Privacy Mode on</Badge>
                 <Badge tone="neutral">AED</Badge>
               </div>
-              <p className="mt-8 text-sm text-white/60">Available operating balance</p>
-              <p className="amount-tabular mt-2 break-words text-5xl font-semibold leading-none text-white sm:text-6xl">
+              <p className="eyebrow mt-8 text-white/55">Available operating balance</p>
+              <p className="amount-mono mt-3 whitespace-nowrap text-4xl font-semibold leading-none text-white sm:text-5xl">
                 {formatAED(railoraOneSummary.availableBalanceFils)}
               </p>
-              <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-white/70">
-                <span className="inline-flex items-center gap-1 text-success">
+              <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-white/70">
+                <span className="inline-flex items-center gap-1 font-semibold text-success">
                   <TrendingUp className="size-4" aria-hidden />
                   12.4% vs previous period
                 </span>
@@ -98,36 +100,47 @@ export default function DashboardPage() {
                 <span>Provider fallback recovered {formatAED(railoraOneSummary.recoveredFils)}</span>
               </div>
             </div>
-            <div className="grid min-w-40 gap-2 rounded-[var(--radius-card)] border border-white/10 bg-white/8 p-4">
-              {[38, 44, 29, 58, 52, 70, 64, 78].map((height, index) => (
-                <div key={index} className="h-2 rounded-full bg-white/10">
-                  <div className="h-full rounded-full bg-brand" style={{ width: `${height}%` }} />
-                </div>
+            <div className="w-full shrink-0 rounded-[var(--radius-card)] border border-white/10 bg-white/[0.06] p-4 lg:w-64">
+              <div className="flex items-center justify-between">
+                <span className="eyebrow text-white/55">Volume · 14d</span>
+                <span className="amount-mono text-xs font-semibold text-success">+24%</span>
+              </div>
+              <Sparkline
+                data={volumeTrend}
+                color="var(--brand)"
+                id="dashboard-volume"
+                className="mt-3 h-20 w-full"
+              />
+            </div>
+          </div>
+          <div className="mt-9 border-t border-white/10 pt-6">
+            <p className="eyebrow mb-4 text-white/45">Quick actions</p>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+              {quickActions.map(({ label, icon: Icon, href }) => (
+                <ButtonLink
+                  key={label}
+                  href={href}
+                  variant="secondary"
+                  className="hover-lift min-h-[5.25rem] flex-col justify-center gap-2.5 border-white/10 bg-white/[0.06] px-3 text-white hover:border-white/20 hover:bg-white/12"
+                >
+                  <span className="flex size-9 items-center justify-center rounded-[var(--radius-control)] bg-white/10 text-white">
+                    <Icon className="size-4" aria-hidden />
+                  </span>
+                  <span className="text-xs font-semibold">{label}</span>
+                </ButtonLink>
               ))}
             </div>
           </div>
-          <div className="mt-8 grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
-            {quickActions.map(({ label, icon: Icon, href }) => (
-              <ButtonLink
-                key={label}
-                href={href}
-                variant="secondary"
-                className="border-white/10 bg-white/10 text-white hover:bg-white/15"
-              >
-                <Icon className="size-4" aria-hidden />
-                {label}
-              </ButtonLink>
-            ))}
-          </div>
         </Card>
 
-        <div className="grid gap-4">
+        <div className="grid gap-5">
           <InsightMetric
             label="Processed volume"
             value={formatAED(railoraOneSummary.activeVolumeFils)}
             detail={`${orders.length} seeded payment and escrow records powering this sandbox.`}
             icon={<Landmark className="size-4" aria-hidden />}
             tone="brand"
+            className="hover-lift animate-railora-rise"
           />
           <InsightMetric
             label="Privacy exposure"
@@ -135,30 +148,33 @@ export default function DashboardPage() {
             detail="Average provider route shares three identifying fields."
             icon={<EyeOff className="size-4" aria-hidden />}
             tone="accent"
+            className="hover-lift animate-railora-rise"
           />
         </div>
       </section>
 
-      <section className="mb-6">
-        <div className="mb-3 flex items-center justify-between gap-3">
+      <section className="mb-8">
+        <div className="mb-4 flex items-center justify-between gap-3">
           <h2 className="text-base font-semibold">Currency pockets</h2>
           <Badge tone="brand">{businesses.length} merchants connected</Badge>
         </div>
-        <div className="grid auto-cols-[minmax(16rem,1fr)] grid-flow-col gap-3 overflow-x-auto pb-2 md:grid-flow-row md:grid-cols-3 md:overflow-visible">
-          {pockets.map((pocket) => (
+        <div className="grid auto-cols-[minmax(16rem,1fr)] grid-flow-col gap-4 overflow-x-auto pb-2 md:grid-flow-row md:grid-cols-3 md:overflow-visible">
+          {pockets.map((pocket, index) => (
             <AmountDisplay
               key={pocket.currency}
               label={`${pocket.currency} pocket`}
               value={formatAED(pocket.available)}
               detail={`${formatAED(pocket.pending)} pending / ${pocket.state}`}
               masked
+              className="hover-lift animate-railora-rise"
+              style={{ animationDelay: `${index * 70}ms` }}
             />
           ))}
         </div>
       </section>
 
       <div className="grid min-w-0 gap-6 xl:grid-cols-[1.2fr_0.8fr]">
-        <Card>
+        <Card className="animate-railora-rise">
           <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <CardTitle>Recent activity</CardTitle>
@@ -171,13 +187,19 @@ export default function DashboardPage() {
             </ButtonLink>
           </CardHeader>
           <div className="grid gap-3">
-            {transactionFeed.slice(0, 4).map((transaction) => (
-              <TransactionCard key={transaction.id} {...transaction} />
+            {transactionFeed.slice(0, 4).map((transaction, index) => (
+              <div
+                key={transaction.id}
+                className="animate-railora-rise"
+                style={{ animationDelay: `${index * 70}ms` }}
+              >
+                <TransactionCard {...transaction} />
+              </div>
             ))}
           </div>
         </Card>
 
-        <Card>
+        <Card className="animate-railora-rise">
           <CardHeader>
             <CardTitle>Insights</CardTitle>
             <CardDescription>
@@ -185,13 +207,17 @@ export default function DashboardPage() {
             </CardDescription>
           </CardHeader>
           <div className="grid gap-3">
-            {analyticsSummary.map(([label, value, detail]) => (
-              <div key={label} className="flex items-center justify-between gap-4 rounded-[var(--radius-control)] border border-border bg-surface-soft p-3">
+            {analyticsSummary.map(([label, value, detail], index) => (
+              <div
+                key={label}
+                className="hover-lift animate-railora-rise flex items-center justify-between gap-4 rounded-[var(--radius-control)] border border-border bg-surface-soft p-3.5"
+                style={{ animationDelay: `${index * 60}ms` }}
+              >
                 <div className="min-w-0">
                   <p className="truncate text-sm font-semibold">{label}</p>
                   <p className="text-xs text-muted">{detail}</p>
                 </div>
-                <p className="amount-tabular shrink-0 font-semibold">{value}</p>
+                <p className="amount-mono shrink-0 font-semibold">{value}</p>
               </div>
             ))}
           </div>

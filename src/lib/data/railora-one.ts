@@ -237,6 +237,16 @@ export const privacyScopes = [
   },
 ];
 
+export const volumeTrend = [
+  42, 38, 51, 47, 63, 55, 71, 66, 82, 74, 79, 91, 86, 104,
+];
+
+export const successTrend = [
+  96.2, 97.1, 96.6, 98.0, 97.4, 98.4, 98.0, 98.7, 98.2, 99.0, 98.6, 99.1,
+];
+
+export const settlementTrend = [58, 64, 49, 72, 66, 81, 77, 92, 88];
+
 export const analyticsSummary = [
   ["Payment volume", "AED 8.42M", "+12.4%"],
   ["Success rate", "98.1%", "+1.8%"],

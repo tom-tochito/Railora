@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 const toneClasses = {
@@ -17,6 +17,7 @@ export function InsightMetric({
   icon,
   tone = "neutral",
   className,
+  style,
 }: {
   label: string;
   value: ReactNode;
@@ -24,6 +25,7 @@ export function InsightMetric({
   icon?: ReactNode;
   tone?: keyof typeof toneClasses;
   className?: string;
+  style?: CSSProperties;
 }) {
   return (
     <div
@@ -32,13 +34,14 @@ export function InsightMetric({
         toneClasses[tone],
         className,
       )}
+      style={style}
     >
       <div className="flex min-w-0 items-start justify-between gap-3">
         <div className="min-w-0">
-          <p className="break-words text-xs font-semibold text-current/70">
+          <p className="eyebrow break-words text-current/70">
             {label}
           </p>
-          <p className="amount-tabular mt-2 break-words text-2xl font-semibold tracking-normal text-foreground">
+          <p className="amount-mono mt-2 break-words text-2xl font-semibold tracking-normal text-foreground">
             {value}
           </p>
         </div>
