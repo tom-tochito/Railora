@@ -63,8 +63,8 @@ export function EscrowRoomClient({
   );
   const [message, setMessage] = useState(
     created
-      ? "Order created. Invite queued; fund escrow in sandbox mode."
-      : "Escrow room ready.",
+      ? "Payment created. Invite queued; fund protected flow in sandbox mode."
+      : "Transaction detail ready.",
   );
   const [hydrated, setHydrated] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -146,12 +146,12 @@ export function EscrowRoomClient({
               </div>
             </div>
             <div className="min-w-0 rounded-lg border border-border bg-ink p-4 text-white shadow-[0_18px_44px_rgba(7,31,28,0.18)] lg:min-w-64">
-              <p className="text-xs uppercase text-white/60">Escrow value</p>
+              <p className="text-xs text-white/60">Payment value</p>
               <p className="mt-2 text-2xl font-semibold text-white">
                 {formatAED(order.amountFils + order.vatFils)}
               </p>
               <p className="mt-1 text-xs text-white/60">
-                Fee preview {formatAED(order.feeFils)} · sandbox only
+                Fee preview {formatAED(order.feeFils)} / sandbox only
               </p>
             </div>
           </div>
@@ -159,12 +159,12 @@ export function EscrowRoomClient({
 
         <div className="grid gap-3 md:grid-cols-3">
           <InsightMetric
-            label="Current state"
+            label="Main status"
             value={statusLabel(state)}
             detail={
               nextState
                 ? `Next expected movement: ${statusLabel(nextState)}.`
-                : "Room is at a terminal or exception state."
+                : "Transaction is at a terminal or exception state."
             }
             icon={<Activity className="size-4" aria-hidden />}
             tone="brand"
@@ -187,9 +187,9 @@ export function EscrowRoomClient({
 
         <Card>
           <CardHeader>
-            <CardTitle>Status timeline</CardTitle>
+            <CardTitle>Payment timeline</CardTitle>
             <CardDescription>
-              A visible path from draft to release, with exception states called out.
+              A visible path from draft to delivery, release, settlement, and exception states.
             </CardDescription>
           </CardHeader>
           <div className="mb-4 h-2 overflow-hidden rounded-full bg-surface-soft">
@@ -236,7 +236,7 @@ export function EscrowRoomClient({
 
         <Card>
           <CardHeader>
-            <CardTitle>Milestones</CardTitle>
+            <CardTitle>Delivery milestones</CardTitle>
             <CardDescription>
               Deposit, proof, and final acceptance split in integer fils.
             </CardDescription>
@@ -263,7 +263,7 @@ export function EscrowRoomClient({
           <CardHeader>
             <CardTitle>Sandbox actions</CardTitle>
             <CardDescription>
-              Move the room through funding, proof, release, risk review, and dispute paths.
+              Move the transaction through funding, proof, release, risk review, and dispute paths.
             </CardDescription>
           </CardHeader>
           <div className="flex flex-wrap gap-3">
@@ -274,7 +274,7 @@ export function EscrowRoomClient({
               onClick={() => runAction(() => fundEscrowSandbox({ orderId: order.id }))}
             >
               <LockKeyhole className="size-4" aria-hidden />
-              Fund escrow
+              Fund payment
             </Button>
             <Button
               type="button"
@@ -402,7 +402,7 @@ export function EscrowRoomClient({
       <aside className="min-w-0 space-y-6">
         <Card>
           <CardHeader>
-            <CardTitle>Counterparty profile</CardTitle>
+            <CardTitle>Merchant and recipient</CardTitle>
           </CardHeader>
           <div className="space-y-4">
             {([
@@ -414,7 +414,7 @@ export function EscrowRoomClient({
                   key={String(label)}
                   className="min-w-0 rounded-lg border border-border p-4"
                 >
-                  <p className="text-xs uppercase text-muted">{label}</p>
+                  <p className="text-xs font-semibold text-muted">{label}</p>
                   <p className="mt-2 break-words text-sm font-semibold">
                     {item?.displayName}
                   </p>
@@ -435,7 +435,7 @@ export function EscrowRoomClient({
           <CardHeader>
             <CardTitle>Evidence upload</CardTitle>
             <CardDescription>
-              Queue supporting evidence for the room record.
+              Queue supporting evidence for the transaction record.
             </CardDescription>
           </CardHeader>
           <div className="space-y-3">
@@ -454,10 +454,10 @@ export function EscrowRoomClient({
           </CardHeader>
           <div className="space-y-3">
             {[
-              "Order created with VAT and fee preview.",
+              "Payment created with VAT and fee preview.",
               "Counterparty invite sent by email and UAE mobile.",
               "Verification checks attached to both businesses.",
-              "Sandbox payment and ledger rows visible before release.",
+              "Sandbox payment, privacy, routing, and ledger rows visible before release.",
             ].map((activity) => (
               <div
                 key={activity}

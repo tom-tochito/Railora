@@ -7,9 +7,9 @@ export default function CreateEscrowPage() {
   return (
     <AppShell>
       <PageHeader
-        badge="Create escrow order"
-        title="Structure a UAE B2B milestone escrow"
-        description="Invite a counterparty, define VAT-aware AED terms, shape milestones, and preview the funding amount before the room opens."
+        badge="Move money"
+        title="Create a protected payment"
+        description="A focused sandbox flow for recipient, amount, routing preference, fees, data sharing, compliance checks, and final review."
       />
       <CreateEscrowForm counterparties={counterparties} />
     </AppShell>

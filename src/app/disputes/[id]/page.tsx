@@ -36,9 +36,9 @@ export default async function DisputePage({
   return (
     <AppShell>
       <PageHeader
-        badge="Dispute room"
+        badge="Exception case"
         title={dispute.reason}
-        description="Evidence, conversation history, proposed resolution, and admin controls stay together for a calm exception workflow."
+        description="Evidence, conversation history, proposed resolution, privacy-safe context, and admin controls stay together for a calm exception workflow."
         tone="danger"
       />
 
@@ -70,7 +70,7 @@ export default async function DisputePage({
         <div className="min-w-0 space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Order context</CardTitle>
+              <CardTitle>Payment context</CardTitle>
               <CardDescription>
                 {parties?.buyer?.displayName} buying from{" "}
                 {parties?.seller?.displayName}
@@ -79,25 +79,25 @@ export default async function DisputePage({
             {order && (
               <div className="grid min-w-0 gap-4 md:grid-cols-4">
                 <div className="min-w-0">
-                  <p className="text-xs uppercase text-muted">Reference</p>
+                  <p className="text-xs font-semibold text-muted">Reference</p>
                   <p className="mt-1 break-words text-sm font-semibold">
                     {order.reference}
                   </p>
                 </div>
                 <div className="min-w-0">
-                  <p className="text-xs uppercase text-muted">Value</p>
+                  <p className="text-xs font-semibold text-muted">Value</p>
                   <p className="mt-1 text-sm font-semibold">
                     {formatAED(order.amountFils + order.vatFils)}
                   </p>
                 </div>
                 <div className="min-w-0">
-                  <p className="text-xs uppercase text-muted">Status</p>
+                  <p className="text-xs font-semibold text-muted">Status</p>
                   <div className="mt-1">
                     <EscrowStatusBadge state={order.state} />
                   </div>
                 </div>
                 <div className="min-w-0">
-                  <p className="text-xs uppercase text-muted">Resolution</p>
+                  <p className="text-xs font-semibold text-muted">Resolution</p>
                   <p className="mt-1 break-words text-sm font-semibold">
                     {dispute.proposedResolution.replaceAll("_", " ")}
                   </p>

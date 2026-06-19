@@ -28,16 +28,16 @@ export default function InvoicesPage() {
   return (
     <AppShell>
       <PageHeader
-        badge="Invoices"
-        title="Invoice to escrow workflow"
-        description="A premium register for VAT-aware invoices, escrow conversion, and e-invoicing readiness across the demo trade network."
+        badge="Invoices and links"
+        title="Invoice, collect, and protect payment requests"
+        description="A premium register for VAT-aware invoices, payment-link creation, escrow conversion, and e-invoicing readiness across the demo network."
       />
 
       <div className="mb-6 grid gap-3 md:grid-cols-3">
         <InsightMetric
           label="Invoice value"
           value={formatAED(totalInvoiceValue)}
-          detail="Gross invoice value represented in the workspace."
+          detail="Gross invoice value represented in the payment workspace."
           icon={<FileText className="size-4" aria-hidden />}
           tone="brand"
         />
@@ -51,7 +51,7 @@ export default function InvoicesPage() {
         <InsightMetric
           label="Escrow-linked"
           value={escrowInvoices}
-          detail="Invoices already converted into protected rooms."
+          detail="Invoices already converted into protected payment flows."
           icon={<Link2 className="size-4" aria-hidden />}
           tone="accent"
         />
@@ -61,7 +61,7 @@ export default function InvoicesPage() {
         <CardHeader>
           <CardTitle>Invoice register</CardTitle>
           <CardDescription>
-            Review counterparty, VAT, readiness, and conversion actions in one place.
+            Review counterparty, VAT, readiness, payment links, and conversion actions in one place.
           </CardDescription>
         </CardHeader>
         <ResponsiveRecordList>

@@ -25,9 +25,9 @@ export default function ScorePage() {
   return (
     <AppShell>
       <PageHeader
-        badge="Trade score"
-        title={`${business.displayName} · score ${business.tradeScore}`}
-        description="An explainable trust view shaped by verification depth, order outcomes, dispute behavior, refunds, and repeat counterparty history."
+        badge="Insights"
+        title={`${business.displayName} operating score ${business.tradeScore}`}
+        description="Explainable merchant and payment-operation signals shaped by verification depth, payment outcomes, dispute behavior, refunds, and repeat counterparty history."
       />
 
       <div className="mb-6 grid gap-3 md:grid-cols-3">
@@ -41,7 +41,7 @@ export default function ScorePage() {
         <InsightMetric
           label="Network average"
           value={averageRiskScore}
-          detail="Seeded risk examples across low, medium, and high scenarios."
+          detail="Seeded risk examples across low, medium, and high payment scenarios."
           icon={<TrendingUp className="size-4" aria-hidden />}
           tone="accent"
         />
@@ -57,14 +57,14 @@ export default function ScorePage() {
       <div className="grid min-w-0 gap-6 xl:grid-cols-[1fr_0.75fr]">
         <Card>
           <CardHeader>
-            <CardTitle>Score breakdown</CardTitle>
-            <CardDescription>
+          <CardTitle>Insight breakdown</CardTitle>
+          <CardDescription>
               These signals are demonstrative and are not a regulated credit score.
             </CardDescription>
           </CardHeader>
           <div className="mb-6 rounded-lg border border-border bg-ink p-5 text-white">
             <p className="text-xs font-semibold uppercase text-white/60">
-              Private confidence profile
+              Private operating profile
             </p>
             <div className="mt-3 flex min-w-0 items-end justify-between gap-4">
               <div className="min-w-0">
@@ -72,7 +72,7 @@ export default function ScorePage() {
                   {business.tradeScore}
                 </p>
                 <p className="mt-2 text-sm text-white/65">
-                  Verified buyer profile with repeat trade signals.
+                  Verified merchant profile with repeat payment and trade signals.
                 </p>
               </div>
               <div className="flex size-16 shrink-0 items-center justify-center rounded-lg bg-accent text-ink">
@@ -109,7 +109,7 @@ export default function ScorePage() {
             <div className="space-y-3 text-sm leading-6 text-muted">
               <p>
                 Railora confidence rises when businesses complete verified
-                escrows, release funds on time, upload consistent evidence, and
+                money movements, settle on time, upload consistent evidence, and
                 build repeat trade with verified counterparties.
               </p>
               <p>

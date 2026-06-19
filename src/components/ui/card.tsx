@@ -5,7 +5,7 @@ export function Card({ className, ...props }: ComponentPropsWithoutRef<"div">) {
   return (
     <div
       className={cn(
-        "min-w-0 max-w-full rounded-lg border border-border bg-surface/95 p-5 shadow-[0_16px_42px_rgba(7,31,28,0.07)]",
+        "min-w-0 max-w-full rounded-[var(--radius-card)] border border-border bg-surface/95 p-5 shadow-[var(--shadow-soft)]",
         className,
       )}
       {...props}
@@ -17,7 +17,7 @@ export function CardHeader({
   className,
   ...props
 }: ComponentPropsWithoutRef<"div">) {
-  return <div className={cn("mb-4 min-w-0 space-y-1", className)} {...props} />;
+  return <div className={cn("mb-4 min-w-0 space-y-1.5", className)} {...props} />;
 }
 
 export function CardTitle({
@@ -27,7 +27,7 @@ export function CardTitle({
   return (
     <h2
       className={cn(
-        "min-w-0 break-words text-base font-semibold text-foreground",
+        "min-w-0 break-words text-base font-semibold leading-snug text-foreground",
         className,
       )}
       {...props}

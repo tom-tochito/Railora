@@ -83,14 +83,14 @@ export function CreateEscrowForm({
       <div className="min-w-0 space-y-6">
         <Card>
           <CardHeader>
-            <CardTitle>1. Counterparty</CardTitle>
+            <CardTitle>1. Recipient</CardTitle>
             <CardDescription>
-              Choose a verified seller or invite by UAE mobile/email.
+              Choose a verified beneficiary or invite by UAE mobile/email.
             </CardDescription>
           </CardHeader>
           <div className="grid min-w-0 gap-4 md:grid-cols-2">
             <div className="min-w-0 space-y-2">
-              <Label htmlFor="counterpartyId">Seller</Label>
+              <Label htmlFor="counterpartyId">Recipient</Label>
               <Select id="counterpartyId" {...register("counterpartyId")}>
                 {counterparties
                   .filter((counterparty) => counterparty.businessId.includes("seller"))
@@ -119,9 +119,9 @@ export function CreateEscrowForm({
 
         <Card>
           <CardHeader>
-            <CardTitle>2. Order details</CardTitle>
+            <CardTitle>2. Amount and route</CardTitle>
             <CardDescription>
-              AED amounts are converted into integer fils for ledger safety.
+              AED amounts are converted into integer fils for ledger safety. Routing preference is a sandbox preview.
             </CardDescription>
           </CardHeader>
           <div className="grid min-w-0 gap-4 md:grid-cols-2">
@@ -143,6 +143,17 @@ export function CreateEscrowForm({
                 <option>Services</option>
                 <option>Logistics</option>
                 <option>Creative</option>
+              </Select>
+            </div>
+            <div className="min-w-0 space-y-2">
+              <Label htmlFor="routingPreference">Routing preference</Label>
+              <Select id="routingPreference" name="routingPreference" defaultValue="smart">
+                <option value="smart">Smart</option>
+                <option value="fastest">Fastest</option>
+                <option value="lowest_cost">Lowest cost</option>
+                <option value="highest_success">Highest success rate</option>
+                <option value="privacy_first">Privacy first</option>
+                <option value="manual">Manual provider selection</option>
               </Select>
             </div>
             <div className="min-w-0 space-y-2">
@@ -168,9 +179,9 @@ export function CreateEscrowForm({
 
         <Card>
           <CardHeader>
-            <CardTitle>3. Milestones</CardTitle>
+            <CardTitle>3. Delivery and compliance</CardTitle>
             <CardDescription>
-              Adjust the deposit and watch the milestone split rebalance instantly.
+              Adjust the protected split and preview expected settlement, backup rail, and compliance requirements.
             </CardDescription>
           </CardHeader>
           <div className="space-y-4">
@@ -179,7 +190,7 @@ export function CreateEscrowForm({
                 <div className="min-w-0">
                   <Label htmlFor="depositPercent">Deposit percentage</Label>
                   <p className="mt-1 text-xs leading-5 text-muted">
-                    Premium rooms usually start with 30-40% to balance trust.
+                    Protected transfers usually start with 30-40% to balance trust.
                   </p>
                 </div>
                 <div className="flex size-10 shrink-0 items-center justify-center rounded-md bg-white text-brand shadow-sm">
@@ -238,9 +249,9 @@ export function CreateEscrowForm({
 
         <Card>
           <CardHeader>
-            <CardTitle>4. Documents</CardTitle>
+            <CardTitle>4. Data sharing</CardTitle>
             <CardDescription>
-              Metadata only. Uploads are represented by a mock R2 abstraction.
+              Metadata only. Uploads are represented by a mock R2 abstraction and sensitive values remain masked by default.
             </CardDescription>
           </CardHeader>
           <div className="grid min-w-0 gap-3 sm:grid-cols-2">
@@ -249,6 +260,8 @@ export function CreateEscrowForm({
               "Purchase order",
               "Delivery note",
               "Trade licence",
+              "Provider receives three identifying fields",
+              "Backup rail can be used automatically",
             ].map((document) => (
               <label
                 key={document}
@@ -265,9 +278,9 @@ export function CreateEscrowForm({
       <aside className="min-w-0 space-y-6">
         <Card className="xl:sticky xl:top-24">
           <CardHeader>
-            <CardTitle>5. Fee review</CardTitle>
+            <CardTitle>5. Review and confirm</CardTitle>
             <CardDescription>
-              A live funding preview for the sandbox room.
+              Recipient, amount, fee, expected delivery, selected rail, backup rail, and data-sharing preview.
             </CardDescription>
           </CardHeader>
           <dl className="space-y-3 text-sm">
@@ -284,7 +297,7 @@ export function CreateEscrowForm({
               </dd>
             </div>
             <div className="flex min-w-0 justify-between gap-4">
-              <dt className="text-muted">Railora demo fee</dt>
+                <dt className="text-muted">Railora demo fee</dt>
               <dd className="break-words text-right font-medium">
                 {formatAED(totals.feeFils)}
               </dd>
@@ -300,11 +313,11 @@ export function CreateEscrowForm({
           </dl>
           <Button type="submit" className="mt-6 w-full" disabled={isPending}>
             <FilePlus2 className="size-4" aria-hidden />
-            {isPending ? "Creating order" : "Create order"}
+            {isPending ? "Creating payment" : "Create payment"}
             <ArrowRight className="size-4" aria-hidden />
           </Button>
           <p className="mt-3 break-words text-xs text-muted" role="status">
-            {message || "Room actions and ledger transitions appear after creation."}
+            {message || "Payment actions and ledger transitions appear after creation."}
           </p>
         </Card>
       </aside>

@@ -13,16 +13,16 @@ export default function AuthPage() {
       <div className="mx-auto max-w-5xl">
         <div className="mb-8 flex min-w-0 items-center justify-between gap-4">
           <div className="min-w-0">
-            <Badge tone="accent">Private access</Badge>
+            <Badge tone="privacy">Private access</Badge>
             <h1 className="mt-4 max-w-3xl break-words text-4xl font-semibold leading-tight sm:text-5xl">
-              Enter the private workspace
+              Enter the Railora One workspace
             </h1>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
-              Choose a role and step into the investor demo with a curated view
-              of escrow rooms, verification depth, and operating controls.
+              Choose a demo role and step into the payment operations console
+              with payments, routing, privacy, settlement, KYB, and risk controls.
             </p>
           </div>
-          <div className="hidden size-12 shrink-0 items-center justify-center rounded-md bg-ink text-accent shadow-[0_18px_42px_rgba(7,31,28,0.18)] sm:flex">
+          <div className="hidden size-12 shrink-0 items-center justify-center rounded-[var(--radius-control)] bg-ink text-brand shadow-[var(--shadow-soft)] sm:flex">
             <ShieldCheck className="size-5" aria-hidden />
           </div>
         </div>
@@ -31,21 +31,21 @@ export default function AuthPage() {
           <InsightMetric
             label="Demo roles"
             value="4"
-            detail="Buyer, seller, business admin, and platform risk access."
+            detail="Merchant, beneficiary, business admin, and platform risk access."
             icon={<Sparkles className="size-4" aria-hidden />}
             tone="accent"
           />
           <InsightMetric
             label="Identity posture"
             value="Mock"
-            detail="UAE PASS, email, and Turnstile are represented safely."
+            detail="UAE PASS, email, privacy, and Turnstile are represented safely."
             icon={<LockKeyhole className="size-4" aria-hidden />}
             tone="brand"
           />
           <InsightMetric
             label="Workspace"
             value="Live seeded"
-            detail="Orders, invoices, disputes, scores, and audit events are ready."
+            detail="Payments, routing, invoices, disputes, scores, and audit events are ready."
             icon={<ShieldCheck className="size-4" aria-hidden />}
             tone="success"
           />
@@ -56,15 +56,15 @@ export default function AuthPage() {
             <CardHeader>
               <CardTitle>Mock UAE PASS</CardTitle>
               <CardDescription>
-                A high-assurance entry point for exploring the workspace.
+                A high-assurance entry point for exploring the operations console.
               </CardDescription>
             </CardHeader>
             <form action={signInWithRole} className="min-w-0 space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="role">Demo role</Label>
                 <Select id="role" name="role" defaultValue="buyer">
-                  <option value="buyer">Buyer</option>
-                  <option value="seller">Seller</option>
+                  <option value="buyer">Merchant operator</option>
+                  <option value="seller">Beneficiary operator</option>
                   <option value="business_admin">Business admin</option>
                   <option value="platform_admin">Platform risk/admin</option>
                 </Select>
@@ -81,7 +81,7 @@ export default function AuthPage() {
             <CardHeader>
               <CardTitle>Email access</CardTitle>
               <CardDescription>
-                A familiar path for switching roles during a demo.
+                A familiar path for switching roles during a sandbox demo.
               </CardDescription>
             </CardHeader>
             <form
@@ -100,8 +100,8 @@ export default function AuthPage() {
               <div className="min-w-0 space-y-2">
                 <Label htmlFor="role-email">Role</Label>
                 <Select id="role-email" name="role" defaultValue="buyer">
-                  <option value="buyer">Buyer</option>
-                  <option value="seller">Seller</option>
+                  <option value="buyer">Merchant operator</option>
+                  <option value="seller">Beneficiary operator</option>
                   <option value="business_admin">Business admin</option>
                   <option value="platform_admin">Platform risk/admin</option>
                 </Select>
@@ -139,7 +139,7 @@ export default function AuthPage() {
 
         <p className="mt-6 max-w-3xl text-xs leading-5 text-muted">
           Sandbox only: this prototype does not create production sessions or run
-          real identity, payment, sanctions, or reconciliation integrations.
+          real identity, payment, provider routing, sanctions, or reconciliation integrations.
         </p>
       </div>
     </main>

@@ -3,12 +3,20 @@ import { expect, test } from "@playwright/test";
 const routes = [
   { path: "/", hasTable: false },
   { path: "/auth", hasTable: false },
-  { path: "/dashboard", hasTable: true },
+  { path: "/dashboard", hasTable: false },
+  { path: "/payments", hasTable: true },
+  { path: "/routing", hasTable: false },
+  { path: "/settlement", hasTable: false },
+  { path: "/payouts", hasTable: true },
+  { path: "/merchants", hasTable: false },
   { path: "/verify", hasTable: false },
   { path: "/escrow/new", hasTable: false },
   { path: "/escrow/ord-001", hasTable: true },
   { path: "/invoices", hasTable: true },
   { path: "/score", hasTable: false },
+  { path: "/developer", hasTable: true },
+  { path: "/privacy", hasTable: false },
+  { path: "/design-system", hasTable: false },
   { path: "/disputes/disp-001", hasTable: false },
   { path: "/admin", hasTable: true },
 ];
@@ -105,18 +113,18 @@ test.describe("mobile workspace navigation", () => {
 
     await page.getByRole("button", { name: "More" }).click();
     await expect(page.locator("[data-mobile-more-menu]")).toBeVisible();
-    await expect(page.getByRole("link", { name: /Trade score/i })).toBeVisible();
-    await expect(page.getByRole("link", { name: /Admin console/i })).toBeVisible();
+    await expect(page.getByRole("link", { name: /Rail Map/i })).toBeVisible();
+    await expect(page.getByRole("link", { name: /Risk ops/i })).toBeVisible();
   });
 
-  test("primary create-order action scrolls clear of the fixed nav", async ({
+  test("primary create-payment action scrolls clear of the fixed nav", async ({
     page,
   }) => {
     await page.goto("/escrow/new");
     await page.waitForLoadState("networkidle");
 
     const nav = page.locator("[data-mobile-nav]");
-    const createOrder = page.getByRole("button", { name: /Create order/i });
+    const createOrder = page.getByRole("button", { name: /Create payment/i });
 
     await createOrder.scrollIntoViewIfNeeded();
 

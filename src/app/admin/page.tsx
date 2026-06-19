@@ -3,6 +3,7 @@ import { AdminActions } from "@/components/admin-actions";
 import { AppShell } from "@/components/app-shell";
 import { InsightMetric } from "@/components/insight-metric";
 import { PageHeader } from "@/components/page-header";
+import { RiskWorkQueue } from "@/components/risk/risk-work-queue";
 import {
   DesktopRecordTable,
   RecordField,
@@ -25,13 +26,36 @@ export default function AdminPage() {
     (sum, order) => sum + order.amountFils + order.vatFils,
     0,
   );
+  const workQueue = [
+    {
+      id: "risk-case-001",
+      title: "High-value payout exception",
+      detail: "Beneficiary account changed after approval",
+      state: "review",
+      sla: "42m",
+    },
+    {
+      id: "risk-case-002",
+      title: "Provider incident follow-up",
+      detail: "Magnati card latency impacted routing",
+      state: "degraded",
+      sla: "1h",
+    },
+    {
+      id: "risk-case-003",
+      title: "Reconciliation discrepancy",
+      detail: "Reserve timing differs from provider statement",
+      state: "pending",
+      sla: "2h",
+    },
+  ];
 
   return (
     <AppShell>
       <PageHeader
-        badge="Platform risk/admin"
-        title="Railora admin console"
-        description="A focused operating view for elevated orders, audit evidence, reconciliation actions, and workspace-wide search snapshots."
+        badge="Risk operations"
+        title="Railora risk and operations console"
+        description="A dense but calm operating view for risk cases, provider incidents, reconciliation discrepancies, failed webhooks, ledger integrity, and audit evidence."
         tone="danger"
       />
 
@@ -39,7 +63,7 @@ export default function AdminPage() {
         <InsightMetric
           label="Flagged value"
           value={formatAED(flaggedValue)}
-          detail={`${flaggedOrders.length} orders need risk attention.`}
+          detail={`${flaggedOrders.length} payments and protected flows need risk attention.`}
           icon={<AlertTriangle className="size-4" aria-hidden />}
           tone="danger"
         />
@@ -59,13 +83,17 @@ export default function AdminPage() {
         />
       </div>
 
+      <div className="mb-6">
+        <RiskWorkQueue items={workQueue} />
+      </div>
+
       <div className="grid min-w-0 gap-6 xl:grid-cols-[1fr_0.8fr]">
         <div className="min-w-0 space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Flagged transactions</CardTitle>
+              <CardTitle>Flagged payments</CardTitle>
               <CardDescription>
-                Orders with disputes, verification friction, or elevated risk.
+                Payments and protected flows with disputes, verification friction, or elevated risk.
               </CardDescription>
             </CardHeader>
             <ResponsiveRecordList>

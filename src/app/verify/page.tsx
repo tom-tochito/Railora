@@ -22,30 +22,30 @@ export default function VerificationPage() {
   return (
     <AppShell>
       <PageHeader
-        badge="Verification center"
+        badge="KYB"
         title={business.legalName}
-        description="A consolidated identity, licence, ownership, bank, tax, and watchlist profile for higher-confidence trade decisions."
+        description="A modern verified business profile for licences, owners, signatories, bank account, sanctions, business activity, documents, and manual review."
       />
 
       <div className="mb-6 grid gap-3 md:grid-cols-3">
         <InsightMetric
           label="Checks complete"
           value={`${verifiedChecks} / ${verificationChecks.length}`}
-          detail="Verified signals are ready for escrow context."
+          detail="Verified signals are ready for payment routing and settlement decisions."
           icon={<CheckCircle2 className="size-4" aria-hidden />}
           tone="success"
         />
         <InsightMetric
           label="Review queue"
           value={reviewChecks}
-          detail="Open items remain visible before funding decisions."
+          detail="Open items remain visible before risk or payout decisions."
           icon={<Clock3 className="size-4" aria-hidden />}
           tone="accent"
         />
         <InsightMetric
           label="Documents verified"
           value={`${verifiedDocuments} / ${documents.length}`}
-          detail="Records stay attached to the workspace audit story."
+          detail="Identity document visibility stays restricted in ordinary merchant views."
           icon={<FileText className="size-4" aria-hidden />}
           tone="brand"
         />
@@ -54,8 +54,8 @@ export default function VerificationPage() {
       <div className="grid min-w-0 gap-6 xl:grid-cols-[1.25fr_0.75fr]">
         <Card>
           <CardHeader>
-            <CardTitle>Verification checklist</CardTitle>
-            <CardDescription>
+              <CardTitle>KYB checklist</CardTitle>
+              <CardDescription>
               Provider signals are represented with seeded sandbox responses.
             </CardDescription>
           </CardHeader>
@@ -93,7 +93,7 @@ export default function VerificationPage() {
             <CardHeader>
               <CardTitle>Upload documents</CardTitle>
               <CardDescription>
-                Add supporting records for the demo scan queue.
+                Add supporting metadata for the demo scan queue.
               </CardDescription>
             </CardHeader>
             <VerificationActions businessId={business.id} />

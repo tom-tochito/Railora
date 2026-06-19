@@ -25,7 +25,7 @@ export function ResponsiveRecordCard({
   return (
     <div
       className={cn(
-        "min-w-0 rounded-lg border border-border bg-white/85 p-4 shadow-[0_12px_30px_rgba(7,31,28,0.05)]",
+        "min-w-0 rounded-[var(--radius-card)] border border-border bg-surface-elevated/85 p-4 shadow-[var(--shadow-soft)]",
         className,
       )}
     >
@@ -55,7 +55,7 @@ export function RecordField({
 }) {
   return (
     <div className={cn("min-w-0", className)}>
-      <p className="text-xs font-semibold uppercase text-muted">{label}</p>
+      <p className="text-xs font-semibold text-muted">{label}</p>
       <div className="mt-1 min-w-0 break-words text-sm font-medium text-foreground">
         {value}
       </div>

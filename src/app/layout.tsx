@@ -15,11 +15,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://railora.example"),
   title: {
-    default: "Railora | UAE B2B escrow and trust",
+    default: "Railora One | Payment rail orchestration",
     template: "%s | Railora",
   },
   description:
-    "Sandbox UAE B2B escrow, invoice, verification, and trade-score prototype for SMEs and cross-border suppliers.",
+    "Sandbox UAE-first payment rail orchestration console for payments, routing, settlement, reconciliation, privacy, risk, and developer operations.",
 };
 
 export default function RootLayout({

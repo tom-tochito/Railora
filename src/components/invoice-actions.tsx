@@ -9,7 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 export function InvoiceActions({ invoiceId }: { invoiceId: string }) {
-  const [message, setMessage] = useState("Invoice actions are sandbox-only.");
+  const [message, setMessage] = useState("Invoice and link actions are sandbox-only.");
   const [isPending, startTransition] = useTransition();
 
   return (
@@ -32,7 +32,7 @@ export function InvoiceActions({ invoiceId }: { invoiceId: string }) {
         }
       >
         <Plus className="size-4" aria-hidden />
-        Create invoice
+        Create payment link
       </Button>
       <Button
         type="button"
@@ -48,11 +48,11 @@ export function InvoiceActions({ invoiceId }: { invoiceId: string }) {
         }
       >
         <Link2 className="size-4" aria-hidden />
-        Convert to escrow
+        Protect payment
       </Button>
       <Button type="button" variant="ghost" size="sm" className="w-full sm:w-auto">
         <FileDown className="size-4" aria-hidden />
-        Mock PDF
+        Export PDF
       </Button>
       <span className="text-xs leading-5 text-muted" role="status">
         {message}

@@ -2,12 +2,13 @@ import { type ComponentPropsWithoutRef } from "react";
 import { cn } from "@/lib/utils";
 
 const toneClasses = {
-  neutral: "border-border bg-white text-foreground",
-  success: "border-emerald-200 bg-emerald-50 text-emerald-800",
-  warning: "border-amber-200 bg-amber-50 text-amber-800",
-  danger: "border-red-200 bg-red-50 text-red-800",
-  brand: "border-teal-200 bg-teal-50 text-teal-900",
-  accent: "border-amber-200 bg-platinum text-amber-900",
+  neutral: "border-border bg-surface-elevated text-foreground",
+  success: "border-success/25 bg-success-soft text-success",
+  warning: "border-warning/25 bg-warning-soft text-warning",
+  danger: "border-danger/25 bg-danger-soft text-danger",
+  brand: "border-brand/25 bg-brand-soft text-brand",
+  accent: "border-brand/25 bg-brand-soft text-brand",
+  privacy: "border-privacy/25 bg-privacy-soft text-privacy",
 };
 
 export function Badge({
@@ -20,7 +21,7 @@ export function Badge({
   return (
     <span
       className={cn(
-        "inline-flex min-h-6 max-w-full items-center rounded-md border px-2 py-0.5 text-xs font-semibold leading-5 shadow-sm",
+        "inline-flex min-h-6 max-w-full items-center rounded-[var(--radius-control)] border px-2 py-0.5 text-xs font-semibold leading-5 shadow-sm",
         toneClasses[tone],
         className,
       )}
